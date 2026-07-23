@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}Book Ticket{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.screen{
+    background:#343a40;
+    color:white;
+    padding:12px;
+    text-align:center;
+    border-radius:10px;
+    margin-bottom:35px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.row-label{
+    width:40px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.seat{
+    display:none;
+}
+
+.seat + label{
+    width:48px;
+    height:48px;
+    border-radius:8px;
+    border:2px solid #198754;
+    color:#198754;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    margin:4px;
+    user-select:none;
+    transition:.2s;
+    font-weight:bold;
+}
+
+.seat:checked + label{
+    background:#198754;
+    color:white;
+}
+
+.reserved{
+    width:48px;
+    height:48px;
+    border-radius:8px;
+    margin:4px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#dc3545;
+    color:white;
+    cursor:not-allowed;
+    font-weight:bold;
+}
+
+.legend-box{
+    width:25px;
+    height:25px;
+    border-radius:5px;
+    display:inline-block;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="row">
+
+<div class="col-lg-8">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2 class="mb-4">
+
+{{ showtime.movie.name }}
+
+</h2>
+
+<p>
+
+<strong>Cinema:</strong>
+
+{{ showtime.cinema.name }}
+
+</p>
+
+<p>
+
+<strong>Time:</strong>
+
+{{ showtime.start_time }}
+
+</p>
+
+<p>
+
+<strong>Price:</strong>
+
+${{ showtime.price }}
+
+</p>
+
+<hr>
+
+<div class="screen">
+
+SCREEN
+
+</div>
+
+<form method="post">
+
+{% csrf_token %}
+
+{% regroup available_seats by row as available_rows %}
+{% regroup reserved_seats by row as reserved_rows %}
+
+{% for row in "ABCDE" %}
+
+<div class="d-flex align-items-center mb-2">
+
+<div class="row-label">
+
+{{ row }}
+
+</div>
+
+{% for seat in available_seats %}
+
+{% if seat.row == row %}
+
+<input
+class="seat"
+type="checkbox"
+id="seat{{ seat.id }}"
+name="seats"
+value="{{ seat.id }}">
+
+<label for="seat{{ seat.id }}">
+
+{{ seat.number }}
+
+</label>
+
+{% endif %}
+
+{% endfor %}
+
+{% for seat in reserved_seats %}
+
+{% if seat.row == row %}
+
+<div class="reserved">
+
+{{ seat.number }}
+
+</div>
+
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+<hr>
+
+<div class="row mt-4">
+
+<div class="col-md-4">
+
+<span class="legend-box border border-success"></span>
+
+Available
+
+</div>
+
+<div class="col-md-4">
+
+<span class="legend-box bg-success"></span>
+
+Selected
+
+</div>
+
+<div class="col-md-4">
+
+<span class="legend-box bg-danger"></span>
+
+Reserved
+
+</div>
+
+</div>
+
+<button
+class="btn btn-success btn-lg w-100 mt-4">
+
+Book Selected Seats
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="card shadow">
+
+<div class="card-header">
+
+Booking Summary
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+<strong>Movie</strong>
+
+<br>
+
+{{ showtime.movie.name }}
+
+</p>
+
+<p>
+
+<strong>Cinema</strong>
+
+<br>
+
+{{ showtime.cinema.name }}
+
+</p>
+
+<p>
+
+<strong>Date</strong>
+
+<br>
+
+{{ showtime.start_time }}
+
+</p>
+
+<p>
+
+<strong>Price per Seat</strong>
+
+<br>
+
+${{ showtime.price }}
+
+</p>
+
+<p>
+
+<strong>Free Seats</strong>
+
+<br>
+
+{{ showtime.free_seats }}
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from .views import (
+    movie_detail,
+    movie_list,
+    cinema_list,
+    profile,
+    register,
+    my_bookings,
+    book_ticket,
+)
+
+urlpatterns = [
+    path(
+        "movies/",
+        movie_list,
+        name="movie_list",
+    ),
+    path(
+        "movies/<int:pk>/",
+        movie_detail,
+        name="movie_detail",
+    ),
+    path(
+        "cinemas/",
+        cinema_list,
+        name="cinema_list",
+    ),
+    path(
+        "register/",
+        register,
+        name="register",
+    ),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(template_name="registration/login.html"),
+        name="login",
+    ),
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(),
+        name="logout",
+    ),
+    path(
+        "profile/",
+        profile,
+        name="profile",
+    ),
+    path(
+        "my-bookings/",
+        my_bookings,
+        name="my_bookings",
+    ),
+    path(
+        "book/<int:showtime_id>/",
+        book_ticket,
+        name="book_ticket",
+    ),
+]

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="bg-dark text-white rounded-4 p-5 mb-5 shadow overflow-hidden">
+    <div class="row align-items-center">
+
+        <div class="col-lg-6">
+            <span class="badge bg-warning text-dark mb-3">
+                🎬 Now Showing
+            </span>
+
+            <h1 class="display-4 fw-bold mb-4">
+                Experience Movies Like Never Before
+            </h1>
+
+            <p class="lead text-light mb-4">
+                Discover the latest blockbusters, reserve your favorite seats,
+                and enjoy a seamless online ticket booking experience.
+            </p>
+
+            <a href="{% url 'movie_list' %}" class="btn btn-warning btn-lg me-2">
+                Browse Movies
+            </a>
+
+            <a href="{% url 'cinema_list' %}" class="btn btn-outline-light btn-lg">
+                Find Cinemas
+            </a>
+        </div>
+
+        <div class="col-lg-6 text-center mt-5 mt-lg-0">
+
+<img
+    src="{% static '' %}"
+    class="img-fluid rounded-4 shadow"
+    alt="Cinema">
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- Features -->
+
+<section class="mb-5">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">
+                        🍿
+                    </div>
+
+                    <h4>
+                        Latest Movies
+                    </h4>
+
+                    <p class="text-muted">
+                        Browse newly released films and upcoming premieres.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">
+                        🎟️
+                    </div>
+
+                    <h4>
+                        Easy Booking
+                    </h4>
+
+                    <p class="text-muted">
+                        Reserve your seats in just a few clicks.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">
+                        🏛️
+                    </div>
+
+                    <h4>
+                        Best Cinemas
+                    </h4>
+
+                    <p class="text-muted">
+                        Discover cinemas near you with modern facilities.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Call To Action -->
+
+<section class="bg-primary text-white rounded-4 p-5 text-center shadow">
+
+    <h2 class="fw-bold mb-3">
+        Ready for Your Next Movie Night?
+    </h2>
+
+    <p class="lead mb-4">
+        Browse available movies and reserve your seat today.
+    </p>
+
+    <a href="{% url 'movie_list' %}" class="btn btn-light btn-lg">
+        View Movies
+    </a>
+
+</section>
+
+{% endblock %}

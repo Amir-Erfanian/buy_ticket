@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Cinemas{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="fw-bold">
+                Cinemas
+            </h1>
+
+            <p class="text-muted mb-0">
+                Browse all available cinemas.
+            </p>
+
+        </div>
+
+    </div>
+
+    {% if cinemas %}
+
+    <div class="row g-4">
+
+        {% for cinema in cinemas %}
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div
+                    class="bg-dark text-white d-flex justify-content-center align-items-center"
+                    style="height:180px;font-size:70px;">
+
+                    🎥
+
+                </div>
+
+                <div class="card-body">
+
+                    <h4 class="card-title">
+
+                        {{ cinema.name }}
+
+                    </h4>
+
+                    <p>
+
+                        <strong>City</strong><br>
+                        {{ cinema.city }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Capacity</strong><br>
+                        {{ cinema.capacity }} Seats
+
+                    </p>
+
+                    <p>
+
+                        <strong>Phone</strong><br>
+
+                        {% if cinema.phone %}
+                            {{ cinema.phone }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Address</strong><br>
+                        {{ cinema.address|truncatechars:80 }}
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white">
+
+                    <span class="badge bg-primary">
+
+                        {{ cinema.showtimes.count }} Showtimes
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+
+        <h4>No Cinemas Found</h4>
+
+        <p class="mb-0">
+            There are currently no cinemas in the database.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

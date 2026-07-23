@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Bookings
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    My Bookings
+</h2>
+
+{% if bookings %}
+
+<table class="table table-striped align-middle">
+
+    <thead>
+
+        <tr>
+            <th>Movie</th>
+            <th>Cinema</th>
+            <th>Date</th>
+            <th>Seats</th>
+            <th>Total</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for booking in bookings %}
+
+        <tr>
+
+            <td>
+                {{ booking.showtime.movie.title }}
+            </td>
+
+            <td>
+                {{ booking.showtime.cinema.name }}
+            </td>
+
+            <td>
+                {{ booking.showtime.start_time }}
+            </td>
+
+            <td>
+                {{ booking.seat_count }}
+            </td>
+
+            <td>
+
+                ${{ booking.total_price }}
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-info">
+
+    You haven't booked any tickets yet.
+
+</div>
+
+<a
+class="btn btn-primary"
+href="{% url 'movie_list' %}">
+
+Browse Movies
+
+</a>
+
+{% endif %}
+
+{% endblock %}
