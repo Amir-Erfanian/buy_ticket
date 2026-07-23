@@ -6,8 +6,25 @@ from .models import (
     ShowTime,
     Seat,
     Booking,
+    BookingSeat,
 )
 
+@admin.register(BookingSeat)
+class BookingSeatAdmin(admin.ModelAdmin):
+    list_display = (
+        "booking",
+        "seat",
+        "booked_at",
+    )
+
+    list_filter = (
+        "booking__showtime",
+    )
+
+    search_fields = (
+        "booking__booking_code",
+        "seat__row",
+    )
 
 class SeatInline(admin.TabularInline):
     model = Seat
@@ -111,28 +128,24 @@ class SeatAdmin(admin.ModelAdmin):
         "showtime",
         "row",
         "number",
-        "is_reserved",
+        "status",
     )
 
     list_filter = (
-        "is_reserved",
-        "row",
+        "status",
+        "showtime",
     )
 
     search_fields = (
         "showtime__movie__name",
-        "showtime__cinema__name",
+        "row",
     )
-
-    autocomplete_fields = ("showtime",)
 
     ordering = (
         "showtime",
         "row",
         "number",
     )
-
-
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = (

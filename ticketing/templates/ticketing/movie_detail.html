@@ -1,42 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}{{ movie.name }}{% endblock %}
+{% block title %}
+{{ movie.name }}
+{% endblock %}
 
 {% block content %}
 
 <div class="container py-5">
 
-    <div class="row">
+    <div class="row g-5">
 
         <div class="col-lg-4">
 
-            <div class="card shadow-sm border-0">
+            {% if movie.poster %}
 
-                {% if movie.poster %}
+                <img
+                        src="{{ movie.poster.url }}"
+                        class="img-fluid rounded-4 shadow"
+                        alt="{{ movie.name }}">
 
-<img
-src="{{ movie.poster.url }}"
-class="img-fluid rounded shadow">
+            {% else %}
 
-{% else %}
+                <div class="bg-secondary text-white rounded-4 shadow d-flex justify-content-center align-items-center"
+                     style="height:550px;font-size:150px;">
 
-<div
-class="bg-secondary text-white rounded shadow d-flex justify-content-center align-items-center"
-style="height:500px;font-size:150px;">
+                    🎬
 
-🎬
+                </div>
 
-</div>
-
-{% endif %}
-
-            </div>
+            {% endif %}
 
         </div>
 
         <div class="col-lg-8">
 
-            <h1 class="fw-bold">
+            <span class="badge bg-danger mb-3">
+                🎥 در حال اکران
+            </span>
+
+            <h1 class="fw-bold mb-3">
 
                 {{ movie.name }}
 
@@ -44,34 +46,32 @@ style="height:500px;font-size:150px;">
 
             <div class="mb-4">
 
-                <span class="badge bg-primary">
+                <span class="badge bg-primary fs-6">
 
                     {{ movie.year }}
 
                 </span>
 
-                <span class="badge bg-success">
+                <span class="badge bg-success fs-6">
 
-                    {{ movie.length }} Minutes
+                    {{ movie.length }} دقیقه
 
                 </span>
 
             </div>
 
-            <table class="table">
+            <table class="table table-bordered align-middle">
+
+                <tbody>
 
                 <tr>
 
-                    <th width="160">
-
-                        Director
-
+                    <th width="180">
+                        کارگردان
                     </th>
 
                     <td>
-
                         {{ movie.director }}
-
                     </td>
 
                 </tr>
@@ -79,15 +79,11 @@ style="height:500px;font-size:150px;">
                 <tr>
 
                     <th>
-
-                        Release Year
-
+                        سال تولید
                     </th>
 
                     <td>
-
                         {{ movie.year }}
-
                     </td>
 
                 </tr>
@@ -95,28 +91,26 @@ style="height:500px;font-size:150px;">
                 <tr>
 
                     <th>
-
-                        Duration
-
+                        مدت زمان
                     </th>
 
                     <td>
-
-                        {{ movie.length }} Minutes
-
+                        {{ movie.length }} دقیقه
                     </td>
 
                 </tr>
+
+                </tbody>
 
             </table>
 
-            <h4 class="mt-4">
+            <h4 class="mt-5 mb-3">
 
-                Description
+                خلاصه داستان
 
             </h4>
 
-            <p class="text-muted">
+            <p class="text-muted lh-lg">
 
                 {{ movie.description }}
 
@@ -128,175 +122,117 @@ style="height:500px;font-size:150px;">
 
     <hr class="my-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
 
-        <h2>
+        <a href="{% url 'movie_list' %}"
+           class="btn btn-outline-secondary">
 
-            Available Showtimes
+            <i class="bi bi-arrow-right"></i>
 
-        </h2>
-
-        <a
-            href="{% url 'movie_list' %}"
-            class="btn btn-outline-secondary">
-
-            ← Back to Movies
+            بازگشت به لیست فیلم‌ها
 
         </a>
 
+        <h2 class="fw-bold">
+
+            سانس‌های نمایش
+
+        </h2>
+
     </div>
 
-    {% if movie.showtimes.all %}
+    {% if movie.showtimes.exists %}
 
-    <div class="row">
+        <div class="row g-4">
 
-        {% for show in movie.showtimes.all %}
+            {% for showtime in movie.showtimes.all %}
 
-        <div class="col-lg-6 mb-4">
+                <div class="col-lg-4">
 
-            <div class="card shadow-sm h-100">
+                    <div class="card shadow border-0 h-100">
 
-                <div class="card-body">
+                        <div class="card-body">
 
-                    <h5>
+                            <h5 class="fw-bold mb-3">
 
-                        {{ show.cinema.name }}
+                                <i class="bi bi-building"></i>
 
-                    </h5>
+                                {{ showtime.cinema.name }}
 
-                    <hr>
+                            </h5>
 
-                    <p>
+                            <p>
 
-                        <strong>Date & Time</strong>
+                                <i class="bi bi-calendar-event"></i>
 
-                        <br>
+                                {{ showtime.start_time|date:"Y/m/d" }}
 
-                        {{ show.start_time }}
+                            </p>
 
-                    </p>
+                            <p>
 
-                    <p>
+                                <i class="bi bi-clock"></i>
 
-                        <strong>Price</strong>
+                                {{ showtime.start_time|time:"H:i" }}
 
-                        <br>
+                            </p>
 
-                        ${{ show.price }}
+                            <p>
 
-                    </p>
+                                <i class="bi bi-cash-coin"></i>
 
-                    <p>
+                                {{ showtime.price }} تومان
 
-                        <strong>Available Seats</strong>
+                            </p>
 
-                        <br>
+                            <p>
 
-                        {{ show.free_seats }} / {{ show.salable_seats }}
+                                <i class="bi bi-chair"></i>
 
-                    </p>
+                                {{ showtime.free_seats }} صندلی خالی
 
-                    <p>
+                            </p>
 
-                        <strong>Status</strong>
+                        </div>
 
-                        <br>
+                        <div class="card-footer bg-white border-0">
 
-                        {% if show.status == 2 %}
+                            <a href="{% url 'select_seats' showtime.pk %}"
+                               class="btn btn-warning w-100">
 
-                            <span class="badge bg-success">
+                                <i class="bi bi-ticket-perforated"></i>
 
-                                On Sale
+                                انتخاب صندلی و خرید بلیت
 
-                            </span>
+                            </a>
 
-                        {% elif show.status == 3 %}
+                        </div>
 
-                            <span class="badge bg-danger">
-
-                                Sold Out
-
-                            </span>
-
-                        {% elif show.status == 4 %}
-
-                            <span class="badge bg-secondary">
-
-                                Closed
-
-                            </span>
-
-                        {% elif show.status == 5 %}
-
-                            <span class="badge bg-dark">
-
-                                Played
-
-                            </span>
-
-                        {% elif show.status == 6 %}
-
-                            <span class="badge bg-danger">
-
-                                Canceled
-
-                            </span>
-
-                        {% else %}
-
-                            <span class="badge bg-warning text-dark">
-
-                                Sale Not Started
-
-                            </span>
-
-                        {% endif %}
-
-                    </p>
+                    </div>
 
                 </div>
 
-                <div class="card-footer bg-white">
-
-                    {% if show.status == 2 and show.free_seats > 0 %}
-
-                    <a
-                        href="{% url 'book_ticket' show.id %}"
-                        class="btn btn-primary w-100">
-
-                        Book Ticket
-
-                    </a>
-
-                    {% else %}
-
-                    <button
-                        class="btn btn-secondary w-100"
-                        disabled>
-
-                        Booking Unavailable
-
-                    </button>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
+            {% endfor %}
 
         </div>
 
-        {% endfor %}
-
-    </div>
-
     {% else %}
 
-    <div class="alert alert-info">
+        <div class="alert alert-info text-center p-5">
 
-        There are no showtimes available for this movie.
+            <h4 class="mb-3">
 
-    </div>
+                🎬
+
+            </h4>
+
+            <p class="mb-0">
+
+                در حال حاضر هیچ سانسی برای این فیلم ثبت نشده است.
+
+            </p>
+
+        </div>
 
     {% endif %}
 

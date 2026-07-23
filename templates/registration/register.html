@@ -1,66 +1,101 @@
 {% extends "base.html" %}
 
-{% block title %}Register{% endblock %}
+{% block title %}
+ثبت نام
+{% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="row justify-content-center py-5">
 
     <div class="col-lg-6 col-md-8">
 
-        <div class="card shadow border-0">
+        <div class="card border-0 shadow-lg">
 
             <div class="card-body p-5">
 
-                <h2 class="text-center mb-4">
-                    Create an Account
-                </h2>
+                <div class="text-center mb-4">
+
+                    <div class="display-4 mb-3">
+                        🎟️
+                    </div>
+
+                    <h2 class="fw-bold">
+                        ایجاد حساب کاربری
+                    </h2>
+
+                    <p class="text-muted">
+                        برای خرید و رزرو آنلاین بلیت، حساب کاربری خود را ایجاد کنید.
+                    </p>
+
+                </div>
 
                 <form method="post" novalidate>
 
                     {% csrf_token %}
 
                     {% if form.non_field_errors %}
+
                         <div class="alert alert-danger">
+
                             {{ form.non_field_errors }}
+
                         </div>
+
                     {% endif %}
 
                     <div class="mb-3">
-                        <label class="form-label">
-                            Username
+
+                        <label class="form-label fw-semibold">
+
+                            نام کاربری
+
                         </label>
+
                         {{ form.username }}
-                        <div class="text-danger small">
+
+                        <div class="text-danger small mt-1">
+
                             {{ form.username.errors }}
+
                         </div>
+
                     </div>
 
                     <div class="row">
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                First Name
+
+                            <label class="form-label fw-semibold">
+
+                                نام
+
                             </label>
 
                             {{ form.first_name }}
 
-                            <div class="text-danger small">
+                            <div class="text-danger small mt-1">
+
                                 {{ form.first_name.errors }}
+
                             </div>
 
                         </div>
 
                         <div class="col-md-6 mb-3">
 
-                            <label class="form-label">
-                                Last Name
+                            <label class="form-label fw-semibold">
+
+                                نام خانوادگی
+
                             </label>
 
                             {{ form.last_name }}
 
-                            <div class="text-danger small">
+                            <div class="text-danger small mt-1">
+
                                 {{ form.last_name.errors }}
+
                             </div>
 
                         </div>
@@ -69,48 +104,66 @@
 
                     <div class="mb-3">
 
-                        <label class="form-label">
-                            Email
+                        <label class="form-label fw-semibold">
+
+                            ایمیل
+
                         </label>
 
                         {{ form.email }}
 
-                        <div class="text-danger small">
+                        <div class="text-danger small mt-1">
+
                             {{ form.email.errors }}
+
                         </div>
 
                     </div>
 
                     <div class="mb-3">
 
-                        <label class="form-label">
-                            Password
+                        <label class="form-label fw-semibold">
+
+                            رمز عبور
+
                         </label>
 
                         {{ form.password1 }}
 
-                        <div class="text-danger small">
+                        <div class="text-danger small mt-1">
+
                             {{ form.password1.errors }}
+
                         </div>
 
                     </div>
 
                     <div class="mb-4">
 
-                        <label class="form-label">
-                            Confirm Password
+                        <label class="form-label fw-semibold">
+
+                            تکرار رمز عبور
+
                         </label>
 
                         {{ form.password2 }}
 
-                        <div class="text-danger small">
+                        <div class="text-danger small mt-1">
+
                             {{ form.password2.errors }}
+
                         </div>
 
                     </div>
 
-                    <button class="btn btn-success w-100" type="submit">
-                        Create Account
+                    <button
+                            type="submit"
+                            class="btn btn-warning btn-lg w-100">
+
+                        <i class="bi bi-person-plus-fill"></i>
+
+                        ایجاد حساب کاربری
+
                     </button>
 
                 </form>
@@ -119,10 +172,13 @@
 
                 <p class="text-center mb-0">
 
-                    Already have an account?
+                    قبلاً ثبت نام کرده‌اید؟
 
-                    <a href="{% url 'login' %}">
-                        Login
+                    <a href="{% url 'login' %}"
+                       class="text-decoration-none fw-bold">
+
+                        وارد شوید
+
                     </a>
 
                 </p>

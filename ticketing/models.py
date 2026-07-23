@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
-
+import uuid
 
 class Movie(models.Model):
     name = models.CharField(max_length=100)
@@ -92,46 +92,111 @@ class ShowTime(models.Model):
 
 
 class Seat(models.Model):
+    class Status(models.TextChoices):
+        AVAILABLE = "available", "Available"
+        BOOKED = "booked", "Booked"
+
     showtime = models.ForeignKey(
         ShowTime,
         on_delete=models.CASCADE,
         related_name="seats",
     )
 
-    row = models.CharField(max_length=1)
+    row = models.CharField(max_length=2)
 
     number = models.PositiveIntegerField()
 
-    is_reserved = models.BooleanField(default=False)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.AVAILABLE,
+    )
 
     class Meta:
-        unique_together = ("showtime", "row", "number")
         ordering = ["row", "number"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["showtime", "row", "number"],
+                name="unique_seat_per_showtime",
+            )
+        ]
 
     def __str__(self):
         return f"{self.row}{self.number}"
 
 
 class Booking(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending"
+        CONFIRMED = "confirmed", "Confirmed"
+        CANCELED = "canceled", "Canceled"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookings")
-
-    showtime = models.ForeignKey(
-        ShowTime, on_delete=models.CASCADE, related_name="bookings"
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="bookings",
     )
 
-    seats = models.ManyToManyField(Seat, related_name="bookings")
+    showtime = models.ForeignKey(
+        ShowTime,
+        on_delete=models.CASCADE,
+        related_name="bookings",
+    )
 
-    total_price = models.PositiveIntegerField()
+    booking_code = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+    )
 
-    booked_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+
+    booked_at = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     class Meta:
         ordering = ["-booked_at"]
 
     @property
+    def total_price(self):
+        return self.booking_seats.count() * self.showtime.price
+
+    @property
     def seat_count(self):
-        return self.seats.count()
+        return self.booking_seats.count()
 
     def __str__(self):
-        return f"{self.user.username} | {self.showtime.movie}"
+        return str(self.booking_code)
+
+class BookingSeat(models.Model):
+    booking = models.ForeignKey(
+        Booking,
+        on_delete=models.CASCADE,
+        related_name="booking_seats",
+    )
+
+    seat = models.ForeignKey(
+        Seat,
+        on_delete=models.PROTECT,
+        related_name="booking_seats",
+    )
+
+    booked_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["seat"],
+                name="unique_booked_seat",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.booking.booking_code} - {self.seat}"

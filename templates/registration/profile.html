@@ -1,13 +1,315 @@
 {% extends "base.html" %}
 
+{% block title %}
+پروفایل کاربری
+{% endblock %}
+
 {% block content %}
 
-<h2>Profile</h2>
+<div class="container py-5">
 
-<p><strong>Username:</strong> {{ request.user.username }}</p>
+    <div class="row justify-content-center">
 
-<p><strong>Name:</strong> {{ request.user.get_full_name }}</p>
+        <div class="col-lg-8">
 
-<p><strong>Email:</strong> {{ request.user.email }}</p>
+            <!-- Profile Header -->
+
+            <div class="card border-0 shadow-lg mb-4">
+
+                <div class="card-body p-5">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-md-3 text-center">
+
+                            <div class="rounded-circle bg-warning d-inline-flex justify-content-center align-items-center shadow"
+                                 style="width:120px;height:120px;font-size:48px;font-weight:bold;">
+
+                                {{ request.user.username|first|upper }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-9 mt-4 mt-md-0">
+
+                            <h2 class="fw-bold">
+
+                                {{ request.user.get_full_name|default:request.user.username }}
+
+                            </h2>
+
+                            <p class="text-muted mb-3">
+
+                                خوش آمدید به پنل کاربری سینما آنلاین 🎬
+
+                            </p>
+
+                            <span class="badge bg-success fs-6">
+
+                                <i class="bi bi-patch-check-fill"></i>
+
+                                حساب فعال
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- User Information -->
+
+            <div class="card border-0 shadow mb-4">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-person-lines-fill"></i>
+
+                        اطلاعات حساب کاربری
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table align-middle">
+
+                        <tbody>
+
+                        <tr>
+
+                            <th width="220">
+
+                                <i class="bi bi-person"></i>
+
+                                نام کاربری
+
+                            </th>
+
+                            <td>
+
+                                {{ request.user.username }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                <i class="bi bi-person-badge"></i>
+
+                                نام و نام خانوادگی
+
+                            </th>
+
+                            <td>
+
+                                {% if request.user.get_full_name %}
+                                    {{ request.user.get_full_name }}
+                                {% else %}
+                                    ثبت نشده
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                <i class="bi bi-envelope"></i>
+
+                                ایمیل
+
+                            </th>
+
+                            <td>
+
+                                {% if request.user.email %}
+                                    {{ request.user.email }}
+                                {% else %}
+                                    ثبت نشده
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                <i class="bi bi-calendar-check"></i>
+
+                                تاریخ عضویت
+
+                            </th>
+
+                            <td>
+
+                                {{ request.user.date_joined|date:"Y/m/d - H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                <i class="bi bi-clock-history"></i>
+
+                                آخرین ورود
+
+                            </th>
+
+                            <td>
+
+                                {{ request.user.last_login|date:"Y/m/d - H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Access -->
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow text-center h-100">
+
+                        <div class="card-body">
+
+                            <div class="display-5 text-warning mb-3">
+
+                                🎟️
+
+                            </div>
+
+                            <h5>
+
+                                بلیت‌های من
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                مشاهده تمامی بلیت‌های رزرو شده
+
+                            </p>
+
+                            <a href="{% url 'my_bookings' %}"
+                               class="btn btn-warning">
+
+                                مشاهده
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow text-center h-100">
+
+                        <div class="card-body">
+
+                            <div class="display-5 text-primary mb-3">
+
+                                🎬
+
+                            </div>
+
+                            <h5>
+
+                                فیلم‌ها
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                مشاهده فیلم‌های در حال اکران
+
+                            </p>
+
+                            <a href="{% url 'movie_list' %}"
+                               class="btn btn-primary">
+
+                                مشاهده
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow text-center h-100">
+
+                        <div class="card-body">
+
+                            <div class="display-5 text-success mb-3">
+
+                                🏛️
+
+                            </div>
+
+                            <h5>
+
+                                سینماها
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                مشاهده سینماهای موجود
+
+                            </p>
+
+                            <a href="{% url 'cinema_list' %}"
+                               class="btn btn-success">
+
+                                مشاهده
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

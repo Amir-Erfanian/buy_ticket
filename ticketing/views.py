@@ -3,8 +3,9 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BookingForm, RegisterForm
+from .forms import BookingForm, RegisterForm, SeatSelectionForm
 from .models import Booking, Cinema, Movie, Seat, ShowTime
+from .services import create_booking
 
 
 def movie_list(request):
@@ -78,14 +79,16 @@ def profile(request):
 @login_required
 def my_bookings(request):
     bookings = (
-        Booking.objects.filter(user=request.user)
-        .prefetch_related("seats")
+        Booking.objects
+        .filter(user=request.user)
         .select_related(
             "showtime",
             "showtime__movie",
             "showtime__cinema",
         )
-        .order_by("-booked_at")
+        .prefetch_related(
+            "booking_seats__seat",
+        )
     )
 
     return render(
@@ -193,4 +196,49 @@ def book_ticket(request, showtime_id):
         request,
         "ticketing/book_ticket.html",
         context,
+    )
+
+
+
+@login_required
+def select_seats(request, pk):
+    showtime = get_object_or_404(ShowTime, pk=pk)
+
+    seats = showtime.seats.filter(
+        status=Seat.Status.AVAILABLE
+    )
+
+    if request.method == "POST":
+        form = SeatSelectionForm(
+            request.POST,
+            seat_queryset=seats,
+        )
+
+        if form.is_valid():
+            booking = create_booking(
+                user=request.user,
+                showtime=showtime,
+                seat_ids=[
+                    int(i)
+                    for i in form.cleaned_data["seats"]
+                ],
+            )
+
+            return redirect(
+                "booking_detail",
+                booking.booking_code,
+            )
+
+    else:
+        form = SeatSelectionForm(
+            seat_queryset=seats,
+        )
+
+    return render(
+        request,
+        "ticketing/select_seats.html",
+        {
+            "showtime": showtime,
+            "form": form,
+        },
     )

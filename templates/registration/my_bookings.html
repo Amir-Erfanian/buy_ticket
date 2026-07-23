@@ -1,83 +1,218 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Bookings
+بلیت‌های من
 {% endblock %}
 
 {% block content %}
 
-<h2 class="mb-4">
-    My Bookings
-</h2>
+<div class="container py-5">
 
-{% if bookings %}
+    <div class="d-flex justify-content-between align-items-center mb-5">
 
-<table class="table table-striped align-middle">
+        <div>
 
-    <thead>
+            <h1 class="fw-bold">
+                🎟️ بلیت‌های من
+            </h1>
 
-        <tr>
-            <th>Movie</th>
-            <th>Cinema</th>
-            <th>Date</th>
-            <th>Seats</th>
-            <th>Total</th>
-        </tr>
+            <p class="text-muted mb-0">
+                تمامی بلیت‌های رزرو شده شما در این بخش نمایش داده می‌شوند.
+            </p>
 
-    </thead>
+        </div>
 
-    <tbody>
+        <a href="{% url 'movie_list' %}"
+           class="btn btn-warning">
 
-    {% for booking in bookings %}
+            <i class="bi bi-film"></i>
 
-        <tr>
+            رزرو بلیت جدید
 
-            <td>
-                {{ booking.showtime.movie.title }}
-            </td>
+        </a>
 
-            <td>
-                {{ booking.showtime.cinema.name }}
-            </td>
+    </div>
 
-            <td>
-                {{ booking.showtime.start_time }}
-            </td>
+    {% if bookings %}
 
-            <td>
-                {{ booking.seat_count }}
-            </td>
+        {% for booking in bookings %}
 
-            <td>
+            <div class="card border-0 shadow mb-4">
 
-                ${{ booking.total_price }}
+                <div class="card-header bg-dark text-white">
 
-            </td>
+                    <div class="row">
 
-        </tr>
+                        <div class="col-md-8">
 
-    {% endfor %}
+                            <h5 class="mb-0">
 
-    </tbody>
+                                🎬 {{ booking.showtime.movie.name }}
 
-</table>
+                            </h5>
 
-{% else %}
+                        </div>
 
-<div class="alert alert-info">
+                        <div class="col-md-4 text-md-end">
 
-    You haven't booked any tickets yet.
+                            <span class="badge bg-warning text-dark">
+
+                                {{ booking.booking_code }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>
+                                    <i class="bi bi-building"></i>
+                                    سینما:
+                                </strong>
+
+                                {{ booking.showtime.cinema.name }}
+
+                            </p>
+
+                            <p>
+
+                                <strong>
+                                    <i class="bi bi-calendar-event"></i>
+                                    تاریخ:
+                                </strong>
+
+                                {{ booking.showtime.start_time|date:"Y/m/d" }}
+
+                            </p>
+
+                            <p>
+
+                                <strong>
+                                    <i class="bi bi-clock"></i>
+                                    ساعت:
+                                </strong>
+
+                                {{ booking.showtime.start_time|time:"H:i" }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>
+                                    <i class="bi bi-ticket-perforated"></i>
+                                    وضعیت:
+                                </strong>
+
+                                {% if booking.status == "confirmed" %}
+
+                                    <span class="badge bg-success">
+                                        تایید شده
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+                                        لغو شده
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+                            <p>
+
+                                <strong>
+                                    <i class="bi bi-cash-coin"></i>
+                                    مبلغ:
+                                </strong>
+
+                                {{ booking.total_price }} تومان
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <h6 class="fw-bold mb-3">
+
+                        <i class="bi bi-grid-3x3-gap"></i>
+
+                        صندلی‌های رزرو شده
+
+                    </h6>
+
+                    {% for booking_seat in booking.booking_seats.all %}
+
+                        <span class="badge bg-primary fs-6 me-2 mb-2">
+
+                            {{ booking_seat.seat.row }}{{ booking_seat.seat.number }}
+
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card border-0 shadow">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-1 mb-3">
+
+                    🎟️
+
+                </div>
+
+                <h3 class="fw-bold">
+
+                    هنوز هیچ بلیتی رزرو نکرده‌اید.
+
+                </h3>
+
+                <p class="text-muted">
+
+                    از میان فیلم‌های در حال اکران، فیلم مورد علاقه خود را انتخاب کرده و به راحتی بلیت رزرو کنید.
+
+                </p>
+
+                <a href="{% url 'movie_list' %}"
+                   class="btn btn-warning btn-lg mt-3">
+
+                    <i class="bi bi-film"></i>
+
+                    مشاهده فیلم‌ها
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
 
 </div>
-
-<a
-class="btn btn-primary"
-href="{% url 'movie_list' %}">
-
-Browse Movies
-
-</a>
-
-{% endif %}
 
 {% endblock %}

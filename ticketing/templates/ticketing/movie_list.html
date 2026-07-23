@@ -1,142 +1,161 @@
 {% extends "base.html" %}
 
-{% block title %}Movies{% endblock %}
+{% block title %}
+فیلم‌ها
+{% endblock %}
 
 {% block content %}
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="row align-items-center mb-5">
 
-        <div>
-            <h1 class="fw-bold mb-1">
-                Now Showing
+        <div class="col-lg-6">
+
+            <h1 class="fw-bold">
+                🎬 فیلم‌های در حال اکران
             </h1>
 
             <p class="text-muted mb-0">
-                Browse all available movies.
+                جدیدترین فیلم‌های روی پرده را مشاهده کنید و بلیت خود را به صورت آنلاین رزرو نمایید.
             </p>
+
         </div>
 
-        <form class="d-flex" method="get">
+        <div class="col-lg-6 mt-4 mt-lg-0">
 
-            <input
-                type="text"
-                name="q"
-                class="form-control"
-                placeholder="Search movie..."
-                value="{{ request.GET.q }}">
+            <form method="get">
 
-            <button
-                class="btn btn-primary ms-2">
+                <div class="input-group">
 
-                Search
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
 
-            </button>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="q"
+                            placeholder="جستجوی فیلم..."
+                            value="{{ request.GET.q }}">
 
-        </form>
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 
     {% if movies %}
 
-    <div class="row g-4">
+        <div class="row g-4">
 
-        {% for movie in movies %}
+            {% for movie in movies %}
 
-        <div class="col-lg-4 col-md-6">
+                <div class="col-xl-3 col-lg-4 col-md-6">
 
-            <div class="card shadow-sm border-0 h-100">
+                    <div class="card h-100 border-0 shadow movie-card">
 
-                {% if movie.poster %}
+                        {% if movie.poster %}
 
-<img
-    src="{{ movie.poster.url }}"
-    class="card-img-top"
-    style="height:350px;object-fit:cover;">
+                            <img
+                                    src="{{ movie.poster.url }}"
+                                    class="card-img-top"
+                                    alt="{{ movie.name }}"
+                                    style="height:380px;object-fit:cover;">
 
-{% else %}
+                        {% else %}
 
-<div
-class="bg-secondary text-white d-flex justify-content-center align-items-center"
-style="height:350px;font-size:80px;">
+                            <div class="bg-secondary text-white d-flex justify-content-center align-items-center"
+                                 style="height:380px;font-size:90px;">
 
-🎬
+                                🎬
 
-</div>
+                            </div>
 
-{% endif %}
+                        {% endif %}
 
-                <div class="card-body">
+                        <div class="card-body">
 
-                    <h4 class="card-title">
+                            <h4 class="fw-bold mb-3">
 
-                        {{ movie.name }}
+                                {{ movie.name }}
 
-                    </h4>
+                            </h4>
 
-                    <p class="text-muted">
+                            <p class="text-muted mb-3">
 
-                        Directed by
-                        <strong>{{ movie.director }}</strong>
+                                <i class="bi bi-camera-reels"></i>
 
-                    </p>
+                                کارگردان:
+                                <strong>{{ movie.director }}</strong>
 
-                    <div class="mb-3">
+                            </p>
 
-                        <span class="badge bg-primary">
+                            <div class="mb-3">
 
-                            {{ movie.year }}
+                                <span class="badge bg-primary">
 
-                        </span>
+                                    {{ movie.year }}
 
-                        <span class="badge bg-success">
+                                </span>
 
-                            {{ movie.length }} min
+                                <span class="badge bg-success">
 
-                        </span>
+                                    {{ movie.length }} دقیقه
+
+                                </span>
+
+                            </div>
+
+                            <p class="text-muted">
+
+                                {{ movie.description|truncatewords:18 }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="card-footer bg-white border-0">
+
+                            <a
+                                    href="{% url 'movie_detail' movie.id %}"
+                                    class="btn btn-warning w-100">
+
+                                <i class="bi bi-ticket-perforated"></i>
+
+                                مشاهده جزئیات و خرید بلیت
+
+                            </a>
+
+                        </div>
 
                     </div>
 
-                    <p>
-
-                        {{ movie.description|truncatewords:20 }}
-
-                    </p>
-
                 </div>
 
-                <div class="card-footer bg-white border-0">
-
-                    <a
-                        href="{% url 'movie_detail' movie.id %}"
-                        class="btn btn-outline-primary w-100">
-
-                        View Details
-
-                    </a>
-
-                </div>
-
-            </div>
+            {% endfor %}
 
         </div>
 
-        {% endfor %}
-
-    </div>
-
     {% else %}
 
-    <div class="alert alert-info text-center">
+        <div class="alert alert-info text-center p-5">
 
-        <h4>No Movies Found</h4>
+            <h3 class="mb-3">
+                🎬
+            </h3>
 
-        <p class="mb-0">
-            There are currently no movies available.
-        </p>
+            <h4>
+                فیلمی یافت نشد
+            </h4>
 
-    </div>
+            <p class="mb-0">
+                در حال حاضر فیلمی برای نمایش وجود ندارد.
+            </p>
+
+        </div>
 
     {% endif %}
 

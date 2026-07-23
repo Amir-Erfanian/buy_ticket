@@ -7,7 +7,7 @@ from .views import (
     profile,
     register,
     my_bookings,
-    book_ticket,
+    book_ticket, select_seats,
 )
 
 urlpatterns = [
@@ -55,5 +55,10 @@ urlpatterns = [
         "book/<int:showtime_id>/",
         book_ticket,
         name="book_ticket",
+    ),
+    path(
+        "showtimes/<int:pk>/seats/",
+        select_seats,
+        name="select_seats",
     ),
 ]

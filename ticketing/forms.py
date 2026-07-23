@@ -114,3 +114,19 @@ class RegisterForm(UserCreationForm):
             user.save()
 
         return user
+
+
+class SeatSelectionForm(forms.Form):
+    seats = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    def __init__(self, *args, seat_queryset=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if seat_queryset is not None:
+            self.fields["seats"].choices = [
+                (seat.id, f"{seat.row}{seat.number}")
+                for seat in seat_queryset
+            ]
