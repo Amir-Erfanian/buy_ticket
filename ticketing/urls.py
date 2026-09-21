@@ -7,7 +7,8 @@ from .views import (
     profile,
     register,
     my_bookings,
-    book_ticket, select_seats,
+    book_ticket,
+    select_seats,
 )
 
 urlpatterns = [

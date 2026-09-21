@@ -9,13 +9,9 @@ def create_booking(*, user, showtime: ShowTime, seat_ids: list[int]) -> Booking:
     if not seat_ids:
         raise ValidationError("Please select at least one seat.")
 
-    seats = (
-        Seat.objects
-        .select_for_update()
-        .filter(
-            id__in=seat_ids,
-            showtime=showtime,
-        )
+    seats = Seat.objects.select_for_update().filter(
+        id__in=seat_ids,
+        showtime=showtime,
     )
 
     if seats.count() != len(seat_ids):

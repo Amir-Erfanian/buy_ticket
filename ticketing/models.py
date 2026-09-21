@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 import uuid
 
+
 class Movie(models.Model):
     name = models.CharField(max_length=100)
     director = models.CharField(max_length=50)
@@ -172,6 +173,7 @@ class Booking(models.Model):
 
     def __str__(self):
         return str(self.booking_code)
+
 
 class BookingSeat(models.Model):
     booking = models.ForeignKey(

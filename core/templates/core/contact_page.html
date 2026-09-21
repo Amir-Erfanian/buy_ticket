@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}تماس با ما{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-5 fw-bold mb-3">
+                <i class="bi bi-envelope-paper text-warning"></i>
+                تماس با ما
+            </h1>
+            <p class="lead text-muted">
+                سوال، پیشنهاد یا انتقادی دارید؟ خوشحال می‌شویم بشنویم.
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Contact Info Cards -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-geo-alt-fill text-warning fs-1"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">آدرس</h5>
+                    <p class="card-text text-muted mb-0">
+                        تهران، خیابان ولیعصر،<br>
+                        پلاک ۱۲۳، طبقه ۴
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-telephone-fill text-warning fs-1"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">تلفن</h5>
+                    <p class="card-text text-muted mb-0" dir="ltr">
+                        ۰۲۱ - ۱۲۳۴ ۵۶۷۸<br>
+                        ۰۹۱۲ ۳۴۵ ۶۷۸۹
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-envelope-fill text-warning fs-1"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">ایمیل</h5>
+                    <p class="card-text text-muted mb-0" dir="ltr">
+                        info@cinema-online.ir<br>
+                        support@cinema-online.ir
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Contact Form -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-4">
+                        <i class="bi bi-chat-dots text-warning"></i>
+                        ارسال پیام
+                    </h3>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">نام و نام خانوادگی</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="مثلاً: علی رضایی" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">ایمیل</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                       placeholder="example@email.com" dir="ltr" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="subject" class="form-label">موضوع</label>
+                                <input type="text" class="form-control" id="subject" name="subject"
+                                       placeholder="موضوع پیام شما" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="message" class="form-label">متن پیام</label>
+                                <textarea class="form-control" id="message" name="message"
+                                          rows="5" placeholder="پیام خود را اینجا بنویسید..."
+                                          required></textarea>
+                            </div>
+
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-warning px-4">
+                                    <i class="bi bi-send"></i>
+                                    ارسال پیام
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

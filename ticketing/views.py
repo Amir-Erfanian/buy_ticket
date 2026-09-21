@@ -79,8 +79,7 @@ def profile(request):
 @login_required
 def my_bookings(request):
     bookings = (
-        Booking.objects
-        .filter(user=request.user)
+        Booking.objects.filter(user=request.user)
         .select_related(
             "showtime",
             "showtime__movie",
@@ -199,14 +198,11 @@ def book_ticket(request, showtime_id):
     )
 
 
-
 @login_required
 def select_seats(request, pk):
     showtime = get_object_or_404(ShowTime, pk=pk)
 
-    seats = showtime.seats.filter(
-        status=Seat.Status.AVAILABLE
-    )
+    seats = showtime.seats.filter(status=Seat.Status.AVAILABLE)
 
     if request.method == "POST":
         form = SeatSelectionForm(
@@ -218,10 +214,7 @@ def select_seats(request, pk):
             booking = create_booking(
                 user=request.user,
                 showtime=showtime,
-                seat_ids=[
-                    int(i)
-                    for i in form.cleaned_data["seats"]
-                ],
+                seat_ids=[int(i) for i in form.cleaned_data["seats"]],
             )
 
             return redirect(

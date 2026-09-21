@@ -127,6 +127,5 @@ class SeatSelectionForm(forms.Form):
 
         if seat_queryset is not None:
             self.fields["seats"].choices = [
-                (seat.id, f"{seat.row}{seat.number}")
-                for seat in seat_queryset
+                (seat.id, f"{seat.row}{seat.number}") for seat in seat_queryset
             ]

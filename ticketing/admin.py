@@ -9,6 +9,7 @@ from .models import (
     BookingSeat,
 )
 
+
 @admin.register(BookingSeat)
 class BookingSeatAdmin(admin.ModelAdmin):
     list_display = (
@@ -17,14 +18,13 @@ class BookingSeatAdmin(admin.ModelAdmin):
         "booked_at",
     )
 
-    list_filter = (
-        "booking__showtime",
-    )
+    list_filter = ("booking__showtime",)
 
     search_fields = (
         "booking__booking_code",
         "seat__row",
     )
+
 
 class SeatInline(admin.TabularInline):
     model = Seat
@@ -146,6 +146,8 @@ class SeatAdmin(admin.ModelAdmin):
         "row",
         "number",
     )
+
+
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = (
