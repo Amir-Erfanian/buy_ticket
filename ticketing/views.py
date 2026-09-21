@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
-from .forms import BookingForm, RegisterForm, SeatSelectionForm
+from .forms import BookingForm, SeatSelectionForm
 from .models import Booking, Cinema, Movie, Seat, ShowTime
 from .services import create_booking
 
@@ -38,63 +37,6 @@ def cinema_list(request):
         "ticketing/cinema_list.html",
         {
             "cinemas": cinemas,
-        },
-    )
-
-
-def register(request):
-    if request.user.is_authenticated:
-        return redirect("movie_list")
-
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-
-            messages.success(request, "Your account has been created successfully.")
-            return redirect("movie_list")
-
-    else:
-        form = RegisterForm()
-
-    return render(
-        request,
-        "registration/register.html",
-        {
-            "form": form,
-        },
-    )
-
-
-@login_required
-def profile(request):
-    return render(
-        request,
-        "registration/profile.html",
-    )
-
-
-@login_required
-def my_bookings(request):
-    bookings = (
-        Booking.objects.filter(user=request.user)
-        .select_related(
-            "showtime",
-            "showtime__movie",
-            "showtime__cinema",
-        )
-        .prefetch_related(
-            "booking_seats__seat",
-        )
-    )
-
-    return render(
-        request,
-        "registration/my_bookings.html",
-        {
-            "bookings": bookings,
         },
     )
 
