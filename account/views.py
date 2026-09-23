@@ -18,7 +18,7 @@ def register(request):
             user = form.save()
             login(request, user)
 
-            messages.success(request, "Your account has been created successfully.")
+            messages.success(request, "اکانت شما با موفقیت ایجاد شد")
             return redirect("movie_list")
 
     else:

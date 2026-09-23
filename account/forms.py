@@ -78,7 +78,7 @@ class RegisterForm(UserCreationForm):
         username = self.cleaned_data["username"]
 
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("This username is already taken.")
+            raise forms.ValidationError("این نام کاربری قبلا استفاده شده است")
 
         return username
 
@@ -86,7 +86,7 @@ class RegisterForm(UserCreationForm):
         email = self.cleaned_data["email"]
 
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("An account with this email already exists.")
+            raise forms.ValidationError("حسابی با این ایمیل از قبل وجود دارد")
 
         return email
 
