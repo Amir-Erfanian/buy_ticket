@@ -7,6 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("", include("ticketing.urls")),
+    path("", include("account.urls")),
 ]
 
 if settings.DEBUG:

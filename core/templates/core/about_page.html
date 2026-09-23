@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}درباره ما{% endblock %}
 
@@ -21,19 +22,19 @@
     <!-- Story Section -->
     <div class="row align-items-center g-5 mb-5">
         <div class="col-lg-6">
-            <img src="https://via.placeholder.com/600x400/212529/ffc107?text=Cinema+Online"
+            <img src="{% static "img/about.jpeg" %}"
                  alt="سینما آنلاین"
                  class="img-fluid rounded shadow-sm">
         </div>
         <div class="col-lg-6">
             <h2 class="fw-bold mb-3">داستان ما</h2>
             <p class="text-muted mb-3">
-                سینما آنلاین در سال ۱۴۰۰ با هدف ساده‌سازی فرآیند خرید بلیت سینما
+                سینما آنلاین امیر با هدف ساده‌سازی فرآیند خرید بلیت سینما
                 راه‌اندازی شد. ما باور داریم که تجربه تماشای فیلم روی پرده بزرگ
                 نباید با صف‌های طولانی و فرآیندهای پیچیده همراه باشد.
             </p>
             <p class="text-muted mb-4">
-                امروز با همکاری بیش از ۵۰ سینما در سراسر کشور، به هزاران کاربر
+                امروز با همکاری بیش از میلیاردها سینما در سراسر کشور، به هزاران کاربر
                 کمک می‌کنیم تا در چند ثانیه بلیت موردنظر خود را رزرو کنند.
             </p>
             <a href="{% url 'movie_list' %}" class="btn btn-warning px-4">
