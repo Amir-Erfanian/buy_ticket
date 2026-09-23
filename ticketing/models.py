@@ -32,6 +32,7 @@ class Cinema(models.Model):
     capacity = models.PositiveIntegerField()
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField()
+    image = models.ImageField(upload_to="cinemas/", blank=True, null=True)
 
     class Meta:
         ordering = ["city", "name"]
@@ -58,7 +59,9 @@ class ShowTime(models.Model):
         (SHOW_CANCELED, "Canceled"),
     )
 
-    movie = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name="showtimes")
+    movie = models.ForeignKey(
+        Movie, on_delete=models.PROTECT, related_name="showtimes"
+    )
 
     cinema = models.ForeignKey(
         Cinema, on_delete=models.PROTECT, related_name="showtimes"
@@ -70,7 +73,7 @@ class ShowTime(models.Model):
 
     salable_seats = models.PositiveIntegerField()
 
-    free_seats = models.PositiveIntegerField()
+    free_seats = models.PositiveIntegerField(default=0)
 
     rows = models.PositiveSmallIntegerField(default=5)
 
@@ -82,11 +85,28 @@ class ShowTime(models.Model):
         ordering = ["start_time"]
 
     def clean(self):
-        if self.salable_seats > self.cinema.capacity:
+        super().clean()
+
+        # Guard against None values (admin add view, empty form fields, etc.)
+        if (
+            self.cinema is not None
+            and self.salable_seats is not None
+            and self.salable_seats > self.cinema.capacity
+        ):
             raise ValidationError("Salable seats exceed cinema capacity.")
 
-        if self.free_seats > self.salable_seats:
+        if (
+            self.salable_seats is not None
+            and self.free_seats is not None
+            and self.free_seats > self.salable_seats
+        ):
             raise ValidationError("Invalid number of free seats.")
+
+    def save(self, *args, **kwargs):
+        # On creation, free_seats should start equal to salable_seats.
+        if self._state.adding and not self.free_seats:
+            self.free_seats = self.salable_seats
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.movie} - {self.cinema}"
@@ -122,6 +142,10 @@ class Seat(models.Model):
             )
         ]
 
+    @property
+    def is_reserved(self):
+        return self.booking_seats.exists()
+
     def __str__(self):
         return f"{self.row}{self.number}"
 
@@ -156,9 +180,7 @@ class Booking(models.Model):
         default=Status.PENDING,
     )
 
-    booked_at = models.DateTimeField(
-        auto_now_add=True,
-    )
+    booked_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-booked_at"]
@@ -188,9 +210,7 @@ class BookingSeat(models.Model):
         related_name="booking_seats",
     )
 
-    booked_at = models.DateTimeField(
-        auto_now_add=True,
-    )
+    booked_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [

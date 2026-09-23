@@ -34,7 +34,7 @@ class SeatInline(admin.TabularInline):
     fields = (
         "row",
         "number",
-        "is_reserved",
+        "status",
     )
 
     ordering = (
@@ -113,8 +113,6 @@ class ShowTimeAdmin(admin.ModelAdmin):
         "cinema",
     )
 
-    readonly_fields = ("free_seats",)
-
     ordering = ("start_time",)
 
     inlines = [
@@ -154,7 +152,7 @@ class BookingAdmin(admin.ModelAdmin):
         "user",
         "showtime",
         "seat_list",
-        "seat_count",
+        "seat_count_display",
         "total_price",
         "booked_at",
     )
@@ -174,14 +172,15 @@ class BookingAdmin(admin.ModelAdmin):
 
     ordering = ("-booked_at",)
 
-    def seat_count(self, obj):
-        return obj.seats.count()
+    @admin.display(description="Seats")
+    def seat_count_display(self, obj):
+        return obj.booking_seats.count()
 
-    seat_count.short_description = "Seats"
-
+    @admin.display(description="Seat Numbers")
     def seat_list(self, obj):
         return ", ".join(
-            str(seat) for seat in obj.seats.all().order_by("row", "number")
+            str(bs.seat)
+            for bs in obj.booking_seats.select_related("seat").order_by(
+                "seat__row", "seat__number"
+            )
         )
-
-    seat_list.short_description = "Seat Numbers"

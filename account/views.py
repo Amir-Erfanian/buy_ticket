@@ -26,7 +26,7 @@ def register(request):
 
     return render(
         request,
-        "registration/register.html",
+        "account/register.html",
         {
             "form": form,
         },
