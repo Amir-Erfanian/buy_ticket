@@ -5,19 +5,24 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import BookingForm, SeatSelectionForm
 from .models import Booking, Cinema, Movie, Seat, ShowTime
 from .services import create_booking
-
+from django.db.models import Q
 
 def movie_list(request):
-    movies = Movie.objects.all()
+    query = request.GET.get("q", "").strip()
+    movies = Movie.objects.filter(is_active=True)
 
-    return render(
-        request,
-        "ticketing/movie_list.html",
-        {
-            "movies": movies,
-        },
-    )
+    if query:
+        movies = movies.filter(
+            Q(name__icontains=query)
+            | Q(director__icontains=query)
+            | Q(description__icontains=query)
+        ).distinct()
 
+    return render(request, "ticketing/movie_list.html", {
+        "movies": movies,
+        "query": query,
+        "movie_count": movies.count(),
+    })
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
@@ -177,3 +182,4 @@ def select_seats(request, pk):
             "form": form,
         },
     )
+

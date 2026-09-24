@@ -11,6 +11,8 @@ class Movie(models.Model):
     year = models.PositiveIntegerField(validators=[MinValueValidator(1888)])
     length = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     description = models.TextField()
+    is_active = models.BooleanField(default=False)
+    is_delete = models.BooleanField(default=False)
 
     poster = models.ImageField(
         upload_to="posters/",
@@ -33,6 +35,8 @@ class Cinema(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField()
     image = models.ImageField(upload_to="cinemas/", blank=True, null=True)
+    is_active = models.BooleanField(default=False)
+    is_delete = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["city", "name"]
@@ -68,17 +72,11 @@ class ShowTime(models.Model):
     )
 
     start_time = models.DateTimeField()
-
     price = models.PositiveIntegerField()
-
     salable_seats = models.PositiveIntegerField()
-
     free_seats = models.PositiveIntegerField(default=0)
-
     rows = models.PositiveSmallIntegerField(default=5)
-
     seats_per_row = models.PositiveSmallIntegerField(default=10)
-
     status = models.IntegerField(choices=STATUS_CHOICES, default=SALE_NOT_STARTED)
 
     class Meta:
@@ -87,7 +85,7 @@ class ShowTime(models.Model):
     def clean(self):
         super().clean()
 
-        # Guard against None values (admin add view, empty form fields, etc.)
+
         if (
             self.cinema is not None
             and self.salable_seats is not None
@@ -124,9 +122,7 @@ class Seat(models.Model):
     )
 
     row = models.CharField(max_length=2)
-
     number = models.PositiveIntegerField()
-
     status = models.CharField(
         max_length=20,
         choices=Status.choices,

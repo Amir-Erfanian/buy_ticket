@@ -25,7 +25,7 @@ class BlogPost(models.Model):
     category = models.ManyToManyField(Category, related_name="posts")
     view_count = models.IntegerField(default=0, blank=True, null=True)
     image = models.ImageField(upload_to="blogs/", null=True, blank=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

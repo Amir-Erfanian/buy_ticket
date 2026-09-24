@@ -50,6 +50,7 @@ class MovieAdmin(admin.ModelAdmin):
         "director",
         "year",
         "length",
+        "is_active"
     )
 
     search_fields = (
