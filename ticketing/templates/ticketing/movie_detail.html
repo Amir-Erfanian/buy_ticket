@@ -1,241 +1,253 @@
+django
 {% extends "base.html" %}
 
 {% block title %}
-{{ movie.name }}
+    {{ movie.name }} | سینما آنلاین
 {% endblock %}
 
 {% block content %}
 
-<div class="container py-5">
+<div class="cinema-movie-detail-page">
 
-    <div class="row g-5">
+    <!-- Movie Hero -->
+    <div class="cinema-detail-hero">
 
-        <div class="col-lg-4">
+        <div class="row g-5 align-items-center">
 
-            {% if movie.poster %}
+            <div class="col-lg-4">
 
-                <img
-                        src="{{ movie.poster.url }}"
-                        class="img-fluid rounded-4 shadow"
-                        alt="{{ movie.name }}">
+                <div class="cinema-detail-poster">
 
-            {% else %}
+                    {% if movie.poster %}
 
-                <div class="bg-secondary text-white rounded-4 shadow d-flex justify-content-center align-items-center"
-                     style="height:550px;font-size:150px;">
+                        <img
+                            src="{{ movie.poster.url }}"
+                            alt="{{ movie.name }}">
 
-                    🎬
+                    {% else %}
+
+                        <div class="cinema-detail-poster-placeholder">
+                            <i class="bi bi-camera-reels"></i>
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
-            {% endif %}
+            </div>
 
-        </div>
+            <div class="col-lg-8">
 
-        <div class="col-lg-8">
-
-            <span class="badge bg-danger mb-3">
-                🎥 در حال اکران
-            </span>
-
-            <h1 class="fw-bold mb-3">
-
-                {{ movie.name }}
-
-            </h1>
-
-            <div class="mb-4">
-
-                <span class="badge bg-primary fs-6">
-
-                    {{ movie.year }}
-
+                <span class="cinema-detail-status">
+                    <i class="bi bi-play-circle-fill"></i>
+                    در حال اکران
                 </span>
 
-                <span class="badge bg-success fs-6">
+                <h1 class="cinema-detail-title">
+                    {{ movie.name }}
+                </h1>
 
-                    {{ movie.length }} دقیقه
+                <div class="cinema-detail-meta">
 
-                </span>
+                    <span>
+                        <i class="bi bi-calendar3"></i>
+                        {{ movie.year }}
+                    </span>
+
+                    <span>
+                        <i class="bi bi-clock"></i>
+                        {{ movie.length }} دقیقه
+                    </span>
+
+                </div>
+
+                <div class="cinema-detail-info">
+
+                    <div class="cinema-detail-info-row">
+                        <div class="cinema-detail-info-label">
+                            <i class="bi bi-person-video3"></i>
+                            کارگردان
+                        </div>
+                        <div class="cinema-detail-info-value">
+                            {{ movie.director }}
+                        </div>
+                    </div>
+
+                    <div class="cinema-detail-info-row">
+                        <div class="cinema-detail-info-label">
+                            <i class="bi bi-calendar-event"></i>
+                            سال تولید
+                        </div>
+                        <div class="cinema-detail-info-value">
+                            {{ movie.year }}
+                        </div>
+                    </div>
+
+                    <div class="cinema-detail-info-row">
+                        <div class="cinema-detail-info-label">
+                            <i class="bi bi-stopwatch"></i>
+                            مدت زمان
+                        </div>
+                        <div class="cinema-detail-info-value">
+                            {{ movie.length }} دقیقه
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cinema-detail-description">
+
+                    <h3>
+                        <span></span>
+                        خلاصه داستان
+                    </h3>
+
+                    <p>
+                        {{ movie.description }}
+                    </p>
+
+                </div>
 
             </div>
 
-            <table class="table table-bordered align-middle">
-
-                <tbody>
-
-                <tr>
-
-                    <th width="180">
-                        کارگردان
-                    </th>
-
-                    <td>
-                        {{ movie.director }}
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <th>
-                        سال تولید
-                    </th>
-
-                    <td>
-                        {{ movie.year }}
-                    </td>
-
-                </tr>
-
-                <tr>
-
-                    <th>
-                        مدت زمان
-                    </th>
-
-                    <td>
-                        {{ movie.length }} دقیقه
-                    </td>
-
-                </tr>
-
-                </tbody>
-
-            </table>
-
-            <h4 class="mt-5 mb-3">
-
-                خلاصه داستان
-
-            </h4>
-
-            <p class="text-muted lh-lg">
-
-                {{ movie.description }}
-
-            </p>
-
         </div>
 
     </div>
 
-    <hr class="my-5">
+    <!-- Showtimes -->
+    <section class="cinema-showtimes-section">
 
-    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-        <a href="{% url 'movie_list' %}"
-           class="btn btn-outline-secondary">
+            <div>
+                <span class="cinema-section-label">
+                    <i class="bi bi-ticket-perforated"></i>
+                    برنامه نمایش
+                </span>
 
-            <i class="bi bi-arrow-right"></i>
+                <h2 class="cinema-section-title mb-0">
+                    سانس‌های نمایش
+                </h2>
+            </div>
 
-            بازگشت به لیست فیلم‌ها
+            <a
+                href="{% url 'movie_list' %}"
+                class="cinema-btn cinema-btn-outline">
 
-        </a>
+                <i class="bi bi-arrow-right"></i>
+                بازگشت به لیست فیلم‌ها
 
-        <h2 class="fw-bold">
+            </a>
 
-            سانس‌های نمایش
+        </div>
 
-        </h2>
+        {% if movie.showtimes.exists %}
 
-    </div>
+            <div class="row g-4">
 
-    {% if movie.showtimes.exists %}
+                {% for showtime in movie.showtimes.all %}
 
-        <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
 
-            {% for showtime in movie.showtimes.all %}
+                        <div class="cinema-showtime-card h-100">
 
-                <div class="col-lg-4">
+                            <div class="cinema-showtime-header">
 
-                    <div class="card shadow border-0 h-100">
+                                <h4>
+                                    <i class="bi bi-building"></i>
+                                    {{ showtime.cinema.name }}
+                                </h4>
 
-                        <div class="card-body">
+                            </div>
 
-                            <h5 class="fw-bold mb-3">
+                            <div class="cinema-showtime-body">
 
-                                <i class="bi bi-building"></i>
+                                <div class="cinema-showtime-item">
+                                    <i class="bi bi-calendar-event"></i>
+                                    <div>
+                                        <small>تاریخ نمایش</small>
+                                        <strong>
+                                            {{ showtime.start_time|date:"Y/m/d" }}
+                                        </strong>
+                                    </div>
+                                </div>
 
-                                {{ showtime.cinema.name }}
+                                <div class="cinema-showtime-item">
+                                    <i class="bi bi-clock"></i>
+                                    <div>
+                                        <small>ساعت نمایش</small>
+                                        <strong>
+                                            {{ showtime.start_time|time:"H:i" }}
+                                        </strong>
+                                    </div>
+                                </div>
 
-                            </h5>
+                                <div class="cinema-showtime-item">
+                                    <i class="bi bi-cash-coin"></i>
+                                    <div>
+                                        <small>قیمت بلیت</small>
+                                        <strong>
+                                            {{ showtime.price }} تومان
+                                        </strong>
+                                    </div>
+                                </div>
 
-                            <p>
+                                <div class="cinema-showtime-item">
+                                    <i class="bi bi-grid-3x3-gap"></i>
+                                    <div>
+                                        <small>صندلی‌های خالی</small>
+                                        <strong>
+                                            {{ showtime.free_seats }} صندلی
+                                        </strong>
+                                    </div>
+                                </div>
 
-                                <i class="bi bi-calendar-event"></i>
+                            </div>
 
-                                {{ showtime.start_time|date:"Y/m/d" }}
+                            <div class="cinema-showtime-footer">
 
-                            </p>
+                                <a
+                                    href="{% url 'select_seats' showtime.pk %}"
+                                    class="cinema-btn cinema-btn-primary w-100">
 
-                            <p>
+                                    <i class="bi bi-ticket-perforated"></i>
+                                    انتخاب صندلی و خرید بلیت
 
-                                <i class="bi bi-clock"></i>
+                                </a>
 
-                                {{ showtime.start_time|time:"H:i" }}
-
-                            </p>
-
-                            <p>
-
-                                <i class="bi bi-cash-coin"></i>
-
-                                {{ showtime.price }} تومان
-
-                            </p>
-
-                            <p>
-
-                                <i class="bi bi-chair"></i>
-
-                                {{ showtime.free_seats }} صندلی خالی
-
-                            </p>
-
-                        </div>
-
-                        <div class="card-footer bg-white border-0">
-
-                            <a href="{% url 'select_seats' showtime.pk %}"
-                               class="btn btn-warning w-100">
-
-                                <i class="bi bi-ticket-perforated"></i>
-
-                                انتخاب صندلی و خرید بلیت
-
-                            </a>
+                            </div>
 
                         </div>
 
                     </div>
 
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="cinema-empty-state cinema-showtime-empty">
+
+                <div class="cinema-empty-icon">
+                    <i class="bi bi-calendar-x"></i>
                 </div>
 
-            {% endfor %}
+                <h3>
+                    سانسی ثبت نشده است
+                </h3>
 
-        </div>
+                <p>
+                    در حال حاضر هیچ سانسی برای این فیلم ثبت نشده است.
+                </p>
 
-    {% else %}
+            </div>
 
-        <div class="alert alert-info text-center p-5">
+        {% endif %}
 
-            <h4 class="mb-3">
-
-                🎬
-
-            </h4>
-
-            <p class="mb-0">
-
-                در حال حاضر هیچ سانسی برای این فیلم ثبت نشده است.
-
-            </p>
-
-        </div>
-
-    {% endif %}
+    </section>
 
 </div>
 
 {% endblock %}
+

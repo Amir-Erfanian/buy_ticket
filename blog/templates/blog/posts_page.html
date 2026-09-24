@@ -1,3 +1,4 @@
+django
 {% extends "base.html" %}
 
 {% block title %}
@@ -14,8 +15,17 @@
 
 {% block content %}
 
-    <div class="mb-4">
-        <h1 class="fw-bold">
+<div class="cinema-blog-page">
+
+    <div class="cinema-blog-heading mb-5">
+
+        <span class="cinema-section-label">
+            <i class="bi bi-journal-richtext"></i>
+            وبلاگ سینما آنلاین
+        </span>
+
+        <h1 class="cinema-section-title">
+
             {% if query %}
                 نتایج جستجو
             {% elif cat_name %}
@@ -25,94 +35,163 @@
             {% else %}
                 آخرین نوشته‌های وبلاگ
             {% endif %}
+
         </h1>
 
         {% if query %}
-            <p class="text-muted mb-0">
+
+            <p class="cinema-page-description mb-0">
                 {{ post_count }} نتیجه برای «{{ query }}»
             </p>
+
         {% endif %}
+
     </div>
 
-    {# Optional blog search box #}
-    <form action="{% url 'blog:search' %}" method="get" class="mb-4">
+    <!-- Blog Search -->
+    <form
+        action="{% url 'blog:search' %}"
+        method="get"
+        class="cinema-blog-search mb-5">
+
         <div class="input-group">
-            <input type="search" name="s" class="form-control"
-                   placeholder="جستجو در وبلاگ..."
-                   value="{{ query|default:'' }}">
-            <button class="btn btn-primary" type="submit">
-                <i class="bi bi-search"></i> جستجو
+
+            <input
+                type="search"
+                name="s"
+                class="form-control"
+                placeholder="جستجو در وبلاگ..."
+                value="{{ query|default:'' }}">
+
+            <button
+                class="cinema-btn cinema-btn-primary"
+                type="submit">
+
+                <i class="bi bi-search"></i>
+                جستجو
+
             </button>
+
         </div>
+
     </form>
 
     {% if posts %}
-        <div class="row g-4">
-            {% for post in posts %}
-                <div class="col-xl-4 col-md-6">
-                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
 
-                        {# Thumbnail image #}
-                        <a href="{{ post.get_absolute_url }}" class="d-block">
+        <div class="row g-4">
+
+            {% for post in posts %}
+
+                <div class="col-xl-4 col-md-6">
+
+                    <article class="cinema-blog-card h-100">
+
+                        <a
+                            href="{{ post.get_absolute_url }}"
+                            class="cinema-blog-image">
+
                             {% if post.image %}
-                                <img src="{{ post.image.url }}"
-                                     class="card-img-top rounded-top-3"
-                                     alt="{{ post.title }}"
-                                     style="height:200px;object-fit:cover;">
+
+                                <img
+                                    src="{{ post.image.url }}"
+                                    alt="{{ post.title }}">
+
                             {% else %}
-                                <div class="card-img-top bg-secondary text-white d-flex justify-content-center align-items-center"
-                                     style="height:200px;">
-                                    <i class="bi bi-image" style="font-size:60px;"></i>
+
+                                <div class="cinema-blog-image-placeholder">
+                                    <i class="bi bi-image"></i>
                                 </div>
+
                             {% endif %}
+
+                            <div class="cinema-blog-image-overlay"></div>
+
+                            <span class="cinema-blog-read">
+                                <i class="bi bi-arrow-left"></i>
+                                مطالعه مطلب
+                            </span>
+
                         </a>
 
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold mb-2">
-                                <a href="{{ post.get_absolute_url }}"
-                                   class="text-decoration-none text-dark">
+                        <div class="cinema-blog-body">
+
+                            <h2>
+                                <a href="{{ post.get_absolute_url }}">
                                     {{ post.title }}
                                 </a>
-                            </h5>
+                            </h2>
 
-                            <p class="card-text text-muted small flex-grow-1 mb-3">
+                            <p class="cinema-blog-excerpt">
                                 {{ post.content|striptags|truncatechars:120 }}
                             </p>
 
                             {% if post.category.all %}
-                                <div class="mb-3">
+
+                                <div class="cinema-blog-categories">
+
                                     {% for cat in post.category.all %}
-                                        <a href="{% url 'blog:category' cat.name %}"
-                                           class="badge bg-primary text-decoration-none me-1">
+
+                                        <a
+                                            href="{% url 'blog:category' cat.name %}">
+
                                             {{ cat.name }}
+
                                         </a>
+
                                     {% endfor %}
+
                                 </div>
+
                             {% endif %}
+
                         </div>
 
-                        <div class="card-footer bg-white border-top-0 d-flex justify-content-between text-muted small pt-0">
+                        <div class="cinema-blog-footer">
+
                             <span>
                                 <i class="bi bi-person"></i>
-                                <a href="{% url 'blog:author' post.author.username %}"
-                                   class="text-decoration-none text-muted">
+
+                                <a href="{% url 'blog:author' post.author.username %}">
                                     {{ post.author.username }}
                                 </a>
                             </span>
+
                             <span>
-                                <i class="bi bi-eye"></i> {{ post.view_count }}
+                                <i class="bi bi-eye"></i>
+                                {{ post.view_count }}
                             </span>
+
                         </div>
-                    </div>
+
+                    </article>
+
                 </div>
+
             {% endfor %}
+
         </div>
+
     {% else %}
-        <div class="alert alert-info text-center p-5">
-            <h3 class="mb-3">📭</h3>
-            <h4>نوشته‌ای یافت نشد</h4>
-            <p class="mb-0">در حال حاضر هیچ نوشته‌ای برای نمایش وجود ندارد.</p>
+
+        <div class="cinema-empty-state">
+
+            <div class="cinema-empty-icon">
+                <i class="bi bi-journal-x"></i>
+            </div>
+
+            <h3>
+                نوشته‌ای یافت نشد
+            </h3>
+
+            <p>
+                در حال حاضر هیچ نوشته‌ای برای نمایش وجود ندارد.
+            </p>
+
         </div>
+
     {% endif %}
 
+</div>
+
 {% endblock %}
+

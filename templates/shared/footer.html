@@ -1,93 +1,135 @@
 {% load static %}
 
-<footer class="bg-dark text-white mt-5 py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <a href="{% url 'home_page' %}" class="d-inline-flex align-items-center text-decoration-none text-white mb-3">
-                    <img src="{% static 'img/logo.png' %}"
-                         alt="سینما آنلاین"
-                         class="footer-logo me-2">
-                    <h5 class="fw-bold mb-0">سینما آنلاین</h5>
-                </a>
+<footer class="cinema-footer mt-5">
 
-                <p class="text-light-emphasis">
-                    سامانه رزرو و خرید اینترنتی بلیت سینما با امکان انتخاب صندلی،
-                    مشاهده سانس‌ها و مدیریت بلیت‌های خریداری‌شده.
-                </p>
 
-            </div>
+<div class="container py-5">
 
-            <div class="col-md-4 mb-4">
+    <div class="row g-5">
 
-                <h5>دسترسی سریع</h5>
+        <!-- Brand -->
+        <div class="col-md-5">
 
-                <ul class="list-unstyled">
+            <a href="{% url 'home_page' %}"
+               class="d-inline-flex align-items-center text-decoration-none cinema-footer-brand mb-3">
 
-                    <li>
-                        <a href="{% url 'home_page' %}" class="text-decoration-none text-light">
-                            خانه
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'movie_list' %}" class="text-decoration-none text-light">فیلم‌ها</a>
+                <img src="{% static 'img/logo.png' %}"
+                     alt="سینما آنلاین"
+                     class="footer-logo">
 
-                    </li>
-
-                    <li>
-                        <a href="{% url 'cinema_list' %}" class="text-decoration-none text-light">
-                            سینماها
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'blog:posts_page' %}" class="text-decoration-none text-light">
-                            وبلاگ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'about_page' %}" class="text-decoration-none text-light">
-                            درباره ما
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'contact_page' %}" class="text-decoration-none text-light">
-                            تماس با ما
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-4">
-
-                <h5>
-                    ارتباط با ما
+                <h5 class="fw-bold mb-0">
+                    سینما آنلاین
                 </h5>
 
-                <p class="mb-1">
+            </a>
 
-                    <i class="bi bi-envelope"></i>
+            <p class="cinema-footer-text mb-4">
+                سامانه رزرو و خرید اینترنتی بلیت سینما با امکان انتخاب صندلی،
+                مشاهده سانس‌ها و مدیریت بلیت‌های خریداری‌شده.
+            </p>
 
-                    info@cinema.amir
+            <div class="cinema-footer-social">
 
-                </p>
+                <a href="#" aria-label="اینستاگرام">
+                    <i class="bi bi-instagram"></i>
+                </a>
 
-                <p class="mb-1">
-                    <i class="bi bi-telephone"></i>
-                    ۰۲۱-۱۲۳۴۵۶۷۸
-                </p>
+                <a href="#" aria-label="تلگرام">
+                    <i class="bi bi-telegram"></i>
+                </a>
 
-                <p>
-                    <i class="bi bi-geo-alt"></i>
-                    تهران، ایران
-                </p>
+                <a href="#" aria-label="شبکه اجتماعی">
+                    <i class="bi bi-twitter-x"></i>
+                </a>
+
             </div>
+
         </div>
 
-        <hr class="border-secondary">
-        <div class="text-center">
-            <small>
-                © ۱۴۰۵ - تمامی حقوق برای سیستم فروش بلیت سینما امیر محفوظ است.
-            </small>
+        <!-- Quick links -->
+        <div class="col-md-3">
+
+            <h5 class="cinema-footer-title">
+                دسترسی سریع
+            </h5>
+
+            <ul class="list-unstyled cinema-footer-links">
+
+                <li>
+                    <a href="{% url 'home_page' %}">
+                        خانه
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'movie_list' %}">
+                        فیلم‌ها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'cinema_list' %}">
+                        سینماها
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'blog:posts_page' %}">
+                        وبلاگ
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'about_page' %}">
+                        درباره ما
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'contact_page' %}">
+                        تماس با ما
+                    </a>
+                </li>
+
+            </ul>
+
         </div>
+
+        <!-- Contact -->
+        <div class="col-md-4">
+
+            <h5 class="cinema-footer-title">
+                ارتباط با ما
+            </h5>
+
+            <div class="cinema-contact-item">
+                <i class="bi bi-envelope"></i>
+                <span>info@cinema.amir</span>
+            </div>
+
+            <div class="cinema-contact-item">
+                <i class="bi bi-telephone"></i>
+                <span>۰۲۱-۱۲۳۴۵۶۷۸</span>
+            </div>
+
+            <div class="cinema-contact-item">
+                <i class="bi bi-geo-alt"></i>
+                <span>تهران، ایران</span>
+            </div>
+
+        </div>
+
     </div>
+
+    <hr class="cinema-footer-divider">
+
+    <div class="text-center cinema-copyright">
+        <small>
+            © ۱۴۰۵ - تمامی حقوق برای سیستم فروش بلیت سینما امیر محفوظ است.
+        </small>
+    </div>
+
+</div>
+
+
 </footer>

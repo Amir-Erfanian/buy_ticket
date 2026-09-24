@@ -1,165 +1,317 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}درباره ما{% endblock %}
+{% block title %}درباره ما | سینما آنلاین{% endblock %}
 
 {% block content %}
-<div class="container py-5">
 
-    <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <h1 class="display-5 fw-bold mb-3">
-                <i class="bi bi-info-circle text-warning"></i>
-                درباره ما
-            </h1>
-            <p class="lead text-muted">
-                سینما آنلاین، پلتفرم رزرو آنلاین بلیت سینما در ایران
-            </p>
-        </div>
-    </div>
+<div class="container py-5 cinema-about-page">
 
-    <!-- Story Section -->
-    <div class="row align-items-center g-5 mb-5">
-        <div class="col-lg-6">
-            <img src="{% static "img/about.jpeg" %}"
-                 alt="سینما آنلاین"
-                 class="img-fluid rounded shadow-sm">
-        </div>
-        <div class="col-lg-6">
-            <h2 class="fw-bold mb-3">داستان ما</h2>
-            <p class="text-muted mb-3">
-                سینما آنلاین امیر با هدف ساده‌سازی فرآیند خرید بلیت سینما
-                راه‌اندازی شد. ما باور داریم که تجربه تماشای فیلم روی پرده بزرگ
-                نباید با صف‌های طولانی و فرآیندهای پیچیده همراه باشد.
-            </p>
-            <p class="text-muted mb-4">
-                امروز با همکاری بیش از میلیاردها سینما در سراسر کشور، به هزاران کاربر
-                کمک می‌کنیم تا در چند ثانیه بلیت موردنظر خود را رزرو کنند.
-            </p>
-            <a href="{% url 'movie_list' %}" class="btn btn-warning px-4">
-                <i class="bi bi-film"></i>
-                مشاهده فیلم‌ها
-            </a>
-        </div>
-    </div>
 
-    <!-- Stats Section -->
-    <div class="row g-4 mb-5">
-        <div class="col-6 col-lg-3">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body p-4">
-                    <i class="bi bi-building text-warning fs-1"></i>
-                    <h3 class="fw-bold mt-3 mb-1">۵۰+</h3>
-                    <p class="text-muted mb-0">سینما</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-3">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body p-4">
-                    <i class="bi bi-people text-warning fs-1"></i>
-                    <h3 class="fw-bold mt-3 mb-1">۱۰۰K+</h3>
-                    <p class="text-muted mb-0">کاربر فعال</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-3">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body p-4">
-                    <i class="bi bi-ticket-perforated text-warning fs-1"></i>
-                    <h3 class="fw-bold mt-3 mb-1">۵۰۰K+</h3>
-                    <p class="text-muted mb-0">بلیت فروخته‌شده</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-3">
-            <div class="card border-0 shadow-sm text-center h-100">
-                <div class="card-body p-4">
-                    <i class="bi bi-star text-warning fs-1"></i>
-                    <h3 class="fw-bold mt-3 mb-1">۴.۸</h3>
-                    <p class="text-muted mb-0">رضایت کاربران</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Header -->
+<div class="row mb-5">
 
-    <!-- Values Section -->
-    <div class="row mb-4">
-        <div class="col-lg-8 mx-auto text-center">
-            <h2 class="fw-bold mb-2">ارزش‌های ما</h2>
-            <p class="text-muted mb-5">اصولی که هر روز بر اساس آن‌ها کار می‌کنیم</p>
-        </div>
-    </div>
+    <div class="col-lg-8 mx-auto text-center">
 
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-lightning-charge-fill text-warning fs-2"></i>
-                    </div>
-                    <h5 class="fw-bold">سرعت و سادگی</h5>
-                    <p class="text-muted mb-0">
-                        رزرو بلیت در کمتر از یک دقیقه، بدون مراحل پیچیده و زمان‌بر.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <span class="cinema-section-label">
+            داستان سینما آنلاین
+        </span>
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-shield-check text-warning fs-2"></i>
-                    </div>
-                    <h5 class="fw-bold">امنیت و اعتماد</h5>
-                    <p class="text-muted mb-0">
-                        پرداخت امن و تضمین بازگشت وجه در صورت لغو نمایش.
-                    </p>
-                </div>
-            </div>
-        </div>
+        <h1 class="cinema-section-title display-4 mb-3">
+            <i class="bi bi-info-circle cinema-red-icon"></i>
+            درباره ما
+        </h1>
 
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-heart-fill text-warning fs-2"></i>
-                    </div>
-                    <h5 class="fw-bold">عشق به سینما</h5>
-                    <p class="text-muted mb-0">
-                        ما خودمان عاشق سینما هستیم و برای همین بهترین‌ها را می‌خواهیم.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+        <p class="lead cinema-page-description">
+            سینما آنلاین، پلتفرم رزرو آنلاین بلیت سینما در ایران
+        </p>
 
-    <!-- CTA Section -->
-    <div class="row mt-5">
-        <div class="col-lg-8 mx-auto">
-            <div class="card border-0 bg-dark text-white text-center shadow-sm">
-                <div class="card-body p-5">
-                    <h3 class="fw-bold mb-3">همین حالا شروع کنید</h3>
-                    <p class="text-white-50 mb-4">
-                        اولین بلیت خود را رزرو کنید و تجربه جدیدی از سینما رفتن داشته باشید.
-                    </p>
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'register' %}" class="btn btn-warning px-4">
-                            <i class="bi bi-person-plus"></i>
-                            ثبت نام رایگان
-                        </a>
-                    {% else %}
-                        <a href="{% url 'movie_list' %}" class="btn btn-warning px-4">
-                            <i class="bi bi-film"></i>
-                            مشاهده فیلم‌ها
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>
+
+
+<!-- Story -->
+<div class="row align-items-center g-5 mb-5">
+
+    <div class="col-lg-6">
+
+        <div class="cinema-about-image">
+
+            <img src="{% static 'img/about.jpeg' %}"
+                 alt="سینما آنلاین"
+                 class="img-fluid">
+
+            <div class="cinema-image-badge">
+                <i class="bi bi-film"></i>
+                سینما آنلاین
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-6">
+
+        <span class="cinema-section-label">
+            از کجا شروع کردیم؟
+        </span>
+
+        <h2 class="fw-bold mt-2 mb-4">
+            داستان ما
+        </h2>
+
+        <p class="cinema-muted mb-3">
+            سینما آنلاین امیر با هدف ساده‌سازی فرآیند خرید بلیت سینما
+            راه‌اندازی شد. ما باور داریم که تجربه تماشای فیلم روی پرده بزرگ
+            نباید با صف‌های طولانی و فرآیندهای پیچیده همراه باشد.
+        </p>
+
+        <p class="cinema-muted mb-4">
+            امروز با همکاری بیش از میلیاردها سینما در سراسر کشور، به هزاران کاربر
+            کمک می‌کنیم تا در چند ثانیه بلیت موردنظر خود را رزرو کنند.
+        </p>
+
+        <a href="{% url 'movie_list' %}"
+           class="btn btn-danger cinema-btn px-4">
+
+            <i class="bi bi-film"></i>
+            مشاهده فیلم‌ها
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Stats -->
+<div class="row g-4 mb-5">
+
+    <div class="col-6 col-lg-3">
+
+        <div class="cinema-stat-card text-center h-100">
+
+            <div class="cinema-stat-icon">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <h3 class="fw-bold mt-3 mb-1">
+                ۵۰+
+            </h3>
+
+            <p class="cinema-muted mb-0">
+                سینما
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="cinema-stat-card text-center h-100">
+
+            <div class="cinema-stat-icon">
+                <i class="bi bi-people"></i>
+            </div>
+
+            <h3 class="fw-bold mt-3 mb-1">
+                ۱۰۰K+
+            </h3>
+
+            <p class="cinema-muted mb-0">
+                کاربر فعال
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="cinema-stat-card text-center h-100">
+
+            <div class="cinema-stat-icon">
+                <i class="bi bi-ticket-perforated"></i>
+            </div>
+
+            <h3 class="fw-bold mt-3 mb-1">
+                ۵۰۰K+
+            </h3>
+
+            <p class="cinema-muted mb-0">
+                بلیت فروخته‌شده
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="cinema-stat-card text-center h-100">
+
+            <div class="cinema-stat-icon">
+                <i class="bi bi-star"></i>
+            </div>
+
+            <h3 class="fw-bold mt-3 mb-1">
+                ۴.۸
+            </h3>
+
+            <p class="cinema-muted mb-0">
+                رضایت کاربران
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Values -->
+<div class="row mb-4">
+
+    <div class="col-lg-8 mx-auto text-center">
+
+        <span class="cinema-section-label">
+            چیزی که برای ما مهم است
+        </span>
+
+        <h2 class="fw-bold mt-2 mb-2">
+            ارزش‌های ما
+        </h2>
+
+        <p class="cinema-muted mb-5">
+            اصولی که هر روز بر اساس آن‌ها کار می‌کنیم
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+
+        <div class="cinema-value-card h-100">
+
+            <div class="cinema-value-icon">
+                <i class="bi bi-lightning-charge-fill"></i>
+            </div>
+
+            <h5 class="fw-bold">
+                سرعت و سادگی
+            </h5>
+
+            <p class="cinema-muted mb-0">
+                رزرو بلیت در کمتر از یک دقیقه، بدون مراحل پیچیده و زمان‌بر.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="cinema-value-card h-100">
+
+            <div class="cinema-value-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <h5 class="fw-bold">
+                امنیت و اعتماد
+            </h5>
+
+            <p class="cinema-muted mb-0">
+                پرداخت امن و تضمین بازگشت وجه در صورت لغو نمایش.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4">
+
+        <div class="cinema-value-card h-100">
+
+            <div class="cinema-value-icon">
+                <i class="bi bi-heart-fill"></i>
+            </div>
+
+            <h5 class="fw-bold">
+                عشق به سینما
+            </h5>
+
+            <p class="cinema-muted mb-0">
+                ما خودمان عاشق سینما هستیم و برای همین بهترین‌ها را می‌خواهیم.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CTA -->
+<div class="row mt-5">
+
+    <div class="col-lg-9 mx-auto">
+
+        <div class="cinema-about-cta text-center">
+
+            <div class="cinema-cta-icon">
+                <i class="bi bi-ticket-perforated"></i>
+            </div>
+
+            <h3 class="fw-bold mb-3">
+                همین حالا شروع کنید
+            </h3>
+
+            <p class="cinema-muted mb-4">
+                اولین بلیت خود را رزرو کنید و تجربه جدیدی از سینما رفتن داشته باشید.
+            </p>
+
+            {% if not user.is_authenticated %}
+
+                <a href="{% url 'register' %}"
+                   class="btn btn-danger cinema-btn px-4">
+
+                    <i class="bi bi-person-plus"></i>
+                    ثبت نام رایگان
+
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'movie_list' %}"
+                   class="btn btn-danger cinema-btn px-4">
+
+                    <i class="bi bi-film"></i>
+                    مشاهده فیلم‌ها
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
 {% endblock %}

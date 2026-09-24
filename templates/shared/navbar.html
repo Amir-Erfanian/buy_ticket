@@ -1,63 +1,120 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark cinema-navbar">
     <div class="container">
-<a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home_page' %}">
-    <img src="{% static 'img/logo.png' %}" alt="سینما آنلاین" class="navbar-logo me-2">
-    <span>سینما آنلاین</span>
-</a>
 
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="mainNav">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home_page' %}">
+        <img src="{% static 'img/logo.png' %}"
+             alt="سینما آنلاین"
+             class="navbar-logo">
+        <span>سینما آنلاین</span>
+    </a>
 
-            <!-- Main links -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home_page' %}">خانه</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'movie_list' %}">فیلم‌ها</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'cinema_list' %}">سینماها</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'blog:posts_page' %}">وبلاگ</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'about_page' %}">درباره ما</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'contact_page' %}">تماس با ما</a></li>
-            </ul>
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+            aria-controls="mainNav"
+            aria-expanded="false"
+            aria-label="باز کردن منو">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <!-- Auth links -->
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">
-                            <i class="bi bi-person-circle"></i> {{ user.username }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my_bookings' %}">
-                            <i class="bi bi-ticket-perforated"></i> بلیت‌های من
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="post" action="{% url 'logout' %}" class="d-flex">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-light btn-sm my-1 my-lg-0">
-                                خروج
-                            </button>
-                        </form>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">ورود</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-warning btn-sm my-1 my-lg-0" href="{% url 'register' %}">
-                            ثبت نام
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
+    <div class="collapse navbar-collapse" id="mainNav">
 
-        </div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 cinema-nav-links">
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home_page' %}">
+                    خانه
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'movie_list' %}">
+                    فیلم‌ها
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'cinema_list' %}">
+                    سینماها
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog:posts_page' %}">
+                    وبلاگ
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about_page' %}">
+                    درباره ما
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact_page' %}">
+                    تماس با ما
+                </a>
+            </li>
+
+        </ul>
+
+        <ul class="navbar-nav ms-auto align-items-lg-center cinema-auth-links">
+
+            {% if user.is_authenticated %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">
+                        <i class="bi bi-person-circle"></i>
+                        {{ user.username }}
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_bookings' %}">
+                        <i class="bi bi-ticket-perforated"></i>
+                        بلیت‌های من
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <form method="post"
+                          action="{% url 'logout' %}"
+                          class="d-flex">
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="btn btn-outline-danger btn-sm cinema-nav-btn">
+                            خروج
+                        </button>
+                    </form>
+                </li>
+
+            {% else %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        ورود
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-danger btn-sm cinema-register-btn"
+                       href="{% url 'register' %}">
+                        ثبت نام
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
     </div>
+</div>
+
+
 </nav>

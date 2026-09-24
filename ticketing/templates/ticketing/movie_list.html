@@ -1,163 +1,183 @@
 {% extends "base.html" %}
 
 {% block title %}
-فیلم‌ها
+فیلم‌ها | سینما آنلاین
 {% endblock %}
 
 {% block content %}
 
-<div class="container py-5">
+<div class="container py-5 cinema-movie-list-page">
 
-    <div class="row align-items-center mb-5">
 
-        <div class="col-lg-6">
+<!-- Header -->
+<div class="row align-items-center mb-5">
 
-            <h1 class="fw-bold">
-                🎬 فیلم‌های در حال اکران
-            </h1>
+    <div class="col-lg-6">
 
-            <p class="text-muted mb-0">
-                جدیدترین فیلم‌های روی پرده را مشاهده کنید و بلیت خود را به صورت آنلاین رزرو نمایید.
-            </p>
+        <span class="cinema-section-label">
+            روی پرده سینما
+        </span>
 
-        </div>
+        <h1 class="cinema-section-title mb-3">
+            <i class="bi bi-film cinema-red-icon"></i>
+            فیلم‌های در حال اکران
+        </h1>
 
-        <div class="col-lg-6 mt-4 mt-lg-0">
-
-            <form method="get">
-
-                <div class="input-group">
-
-                    <button class="btn btn-primary" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-
-                    <input
-                            type="text"
-                            class="form-control"
-                            name="q"
-                            placeholder="جستجوی فیلم..."
-                            value="{{ request.GET.q }}">
-
-                </div>
-
-            </form>
-
-        </div>
+        <p class="cinema-page-description mb-0">
+            جدیدترین فیلم‌های روی پرده را مشاهده کنید و بلیت خود را
+            به صورت آنلاین رزرو نمایید.
+        </p>
 
     </div>
 
-    {% if movies %}
 
-        <div class="row g-4">
+    <div class="col-lg-6 mt-4 mt-lg-0">
 
-            {% for movie in movies %}
+        <form method="get">
 
-                <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="input-group cinema-search">
 
-                    <div class="card h-100 border-0 shadow movie-card">
+                <button class="btn btn-danger"
+                        type="submit">
+
+                    <i class="bi bi-search"></i>
+
+                </button>
+
+                <input type="text"
+                       class="form-control"
+                       name="q"
+                       placeholder="جستجوی فیلم..."
+                       value="{{ request.GET.q }}">
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% if movies %}
+
+    <div class="row g-4">
+
+        {% for movie in movies %}
+
+            <div class="col-xl-3 col-lg-4 col-md-6">
+
+                <div class="card cinema-movie-card h-100">
+
+                    <div class="cinema-movie-poster">
 
                         {% if movie.poster %}
 
-                            <img
-                                    src="{{ movie.poster.url }}"
-                                    class="card-img-top"
-                                    alt="{{ movie.name }}"
-                                    style="height:380px;object-fit:cover;">
+                            <img src="{{ movie.poster.url }}"
+                                 alt="{{ movie.name }}">
 
                         {% else %}
 
-                            <div class="bg-secondary text-white d-flex justify-content-center align-items-center"
-                                 style="height:380px;font-size:90px;">
+                            <div class="cinema-movie-placeholder">
 
-                                🎬
+                                <i class="bi bi-film"></i>
 
                             </div>
 
                         {% endif %}
 
-                        <div class="card-body">
+                        <div class="cinema-poster-overlay"></div>
 
-                            <h4 class="fw-bold mb-3">
+                        <span class="cinema-poster-badge">
+                            <i class="bi bi-play-fill"></i>
+                            در حال اکران
+                        </span>
 
-                                {{ movie.name }}
+                    </div>
 
-                            </h4>
 
-                            <p class="text-muted mb-3">
+                    <div class="card-body">
 
-                                <i class="bi bi-camera-reels"></i>
+                        <h4 class="fw-bold mb-3">
+                            {{ movie.name }}
+                        </h4>
 
-                                کارگردان:
-                                <strong>{{ movie.director }}</strong>
 
-                            </p>
+                        <p class="cinema-muted mb-3">
 
-                            <div class="mb-3">
+                            <i class="bi bi-camera-reels cinema-red-icon"></i>
 
-                                <span class="badge bg-primary">
+                            کارگردان:
+                            <strong class="cinema-white">
+                                {{ movie.director }}
+                            </strong>
 
-                                    {{ movie.year }}
+                        </p>
 
-                                </span>
 
-                                <span class="badge bg-success">
+                        <div class="mb-3">
 
-                                    {{ movie.length }} دقیقه
+                            <span class="cinema-movie-badge">
+                                <i class="bi bi-calendar3"></i>
+                                {{ movie.year }}
+                            </span>
 
-                                </span>
-
-                            </div>
-
-                            <p class="text-muted">
-
-                                {{ movie.description|truncatewords:18 }}
-
-                            </p>
-
-                        </div>
-
-                        <div class="card-footer bg-white border-0">
-
-                            <a
-                                    href="{% url 'movie_detail' movie.id %}"
-                                    class="btn btn-warning w-100">
-
-                                <i class="bi bi-ticket-perforated"></i>
-
-                                مشاهده جزئیات و خرید بلیت
-
-                            </a>
+                            <span class="cinema-movie-badge">
+                                <i class="bi bi-clock"></i>
+                                {{ movie.length }} دقیقه
+                            </span>
 
                         </div>
+
+
+                        <p class="cinema-muted mb-0">
+                            {{ movie.description|truncatewords:18 }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-footer cinema-movie-card-footer">
+
+                        <a href="{% url 'movie_detail' movie.id %}"
+                           class="btn btn-danger cinema-btn w-100">
+
+                            <i class="bi bi-ticket-perforated"></i>
+
+                            مشاهده جزئیات و خرید بلیت
+
+                        </a>
 
                     </div>
 
                 </div>
 
-            {% endfor %}
+            </div>
 
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="cinema-empty-state text-center">
+
+        <div class="cinema-empty-icon">
+            <i class="bi bi-film"></i>
         </div>
 
-    {% else %}
+        <h3 class="fw-bold mb-3">
+            فیلمی یافت نشد
+        </h3>
 
-        <div class="alert alert-info text-center p-5">
+        <p class="cinema-muted mb-0">
+            در حال حاضر فیلمی برای نمایش وجود ندارد.
+        </p>
 
-            <h3 class="mb-3">
-                🎬
-            </h3>
+    </div>
 
-            <h4>
-                فیلمی یافت نشد
-            </h4>
+{% endif %}
 
-            <p class="mb-0">
-                در حال حاضر فیلمی برای نمایش وجود ندارد.
-            </p>
-
-        </div>
-
-    {% endif %}
 
 </div>
 

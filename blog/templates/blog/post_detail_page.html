@@ -1,109 +1,185 @@
+django
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }} | سینما آنلاین{% endblock %}
+{% block title %}
+    {{ post.title }} | سینما آنلاین
+{% endblock %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
+<div class="cinema-post-detail-page">
 
-            <article class="card border-0 shadow-sm rounded-3 overflow-hidden">
+    <div class="row">
+
+        <div class="col-xl-9 col-lg-10 mx-auto">
+
+            <article class="cinema-post-article">
 
                 {% if post.image %}
-                    <img src="{{ post.image.url }}"
-                         class="card-img-top rounded-top-3"
-                         alt="{{ post.title }}"
-                         style="max-height:400px;object-fit:cover;">
+
+                    <div class="cinema-post-cover">
+
+                        <img
+                            src="{{ post.image.url }}"
+                            alt="{{ post.title }}">
+
+                        <div class="cinema-post-cover-overlay"></div>
+
+                    </div>
+
                 {% endif %}
 
-                <div class="card-body p-4 p-md-5">
+                <div class="cinema-post-body">
 
-                    <h1 class="fw-bold mb-3">{{ post.title }}</h1>
+                    <span class="cinema-section-label">
+                        <i class="bi bi-journal-text"></i>
+                        وبلاگ سینما آنلاین
+                    </span>
 
-                    <div class="d-flex flex-wrap gap-3 text-muted small mb-4 pb-3 border-bottom">
+                    <h1>
+                        {{ post.title }}
+                    </h1>
+
+                    <div class="cinema-post-meta">
+
                         <span>
                             <i class="bi bi-person"></i>
-                            <a href="{% url 'blog:author' post.author.username %}"
-                               class="text-decoration-none text-muted">
+
+                            <a href="{% url 'blog:author' post.author.username %}">
                                 {{ post.author.username }}
                             </a>
                         </span>
+
                         <span>
-                            <i class="bi bi-calendar"></i>
+                            <i class="bi bi-calendar3"></i>
                             {{ post.created_at|date:"Y/m/d" }}
                         </span>
+
                         <span>
                             <i class="bi bi-eye"></i>
                             {{ post.view_count }} بازدید
                         </span>
+
                     </div>
 
                     {% if post.category.all %}
-                        <div class="mb-4">
+
+                        <div class="cinema-post-categories">
+
                             {% for cat in post.category.all %}
-                                <a href="{% url 'blog:category' cat.name %}"
-                                   class="badge bg-primary text-decoration-none me-1">
+
+                                <a
+                                    href="{% url 'blog:category' cat.name %}">
+
+                                    <i class="bi bi-tag"></i>
                                     {{ cat.name }}
+
                                 </a>
+
                             {% endfor %}
+
                         </div>
+
                     {% endif %}
 
-                    <div class="post-content lh-lg">
+                    <div class="cinema-post-content">
                         {{ post.content|linebreaks }}
                     </div>
 
                 </div>
+
             </article>
 
             {% if related_posts %}
-                <section class="mt-5">
-                    <h3 class="fw-bold mb-4">مطالب مرتبط</h3>
-                    <div class="row g-3">
-                        {% for rp in related_posts %}
-                            <div class="col-md-4">
-                                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
 
-                                    {# Thumbnail for related post #}
-                                    <a href="{{ rp.get_absolute_url }}" class="d-block">
+                <section class="cinema-related-posts mt-5">
+
+                    <div class="mb-4">
+
+                        <span class="cinema-section-label">
+                            <i class="bi bi-collection"></i>
+                            پیشنهاد مطالعه
+                        </span>
+
+                        <h2 class="cinema-section-title">
+                            مطالب مرتبط
+                        </h2>
+
+                    </div>
+
+                    <div class="row g-4">
+
+                        {% for rp in related_posts %}
+
+                            <div class="col-md-4">
+
+                                <article class="cinema-related-card h-100">
+
+                                    <a
+                                        href="{{ rp.get_absolute_url }}"
+                                        class="cinema-related-image">
+
                                         {% if rp.image %}
-                                            <img src="{{ rp.image.url }}"
-                                                 class="card-img-top rounded-top-3"
-                                                 alt="{{ rp.title }}"
-                                                 style="height:140px;object-fit:cover;">
+
+                                            <img
+                                                src="{{ rp.image.url }}"
+                                                alt="{{ rp.title }}">
+
                                         {% else %}
-                                            <div class="card-img-top bg-secondary text-white d-flex justify-content-center align-items-center"
-                                                 style="height:140px;">
-                                                <i class="bi bi-image" style="font-size:40px;"></i>
+
+                                            <div class="cinema-related-placeholder">
+                                                <i class="bi bi-image"></i>
                                             </div>
+
                                         {% endif %}
+
                                     </a>
 
-                                    <div class="card-body">
-                                        <h6 class="fw-bold mb-2">
-                                            <a href="{{ rp.get_absolute_url }}"
-                                               class="text-decoration-none text-dark">
+                                    <div class="cinema-related-body">
+
+                                        <h3>
+                                            <a href="{{ rp.get_absolute_url }}">
                                                 {{ rp.title }}
                                             </a>
-                                        </h6>
-                                        <small class="text-muted">
+                                        </h3>
+
+                                        <small>
+                                            <i class="bi bi-calendar3"></i>
                                             {{ rp.created_at|date:"Y/m/d" }}
                                         </small>
+
                                     </div>
-                                </div>
+
+                                </article>
+
                             </div>
+
                         {% endfor %}
+
                     </div>
+
                 </section>
+
             {% endif %}
 
-            <div class="mt-4">
-                <a href="{% url 'blog:posts_page' %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-right"></i> بازگشت به لیست وبلاگ
+            <div class="mt-5">
+
+                <a
+                    href="{% url 'blog:posts_page' %}"
+                    class="cinema-btn cinema-btn-outline">
+
+                    <i class="bi bi-arrow-right"></i>
+                    بازگشت به لیست وبلاگ
+
                 </a>
+
             </div>
 
         </div>
+
     </div>
 
+</div>
+
 {% endblock %}
+

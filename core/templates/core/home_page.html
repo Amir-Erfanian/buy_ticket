@@ -2,231 +2,265 @@
 {% load static %}
 
 {% block title %}
-خانه
+خانه | سینما آنلاین
 {% endblock %}
 
 {% block content %}
 
-<div>
+<div class="cinema-home">
 
-    <!-- Hero Section -->
-    <section class="bg-dark text-white rounded-4 p-5 mb-5 shadow overflow-hidden">
 
-        <div class="row align-items-center">
+<!-- Hero -->
+<section class="cinema-hero rounded-4 overflow-hidden shadow-lg mb-5">
 
-            <div class="col-lg-6 order-lg-2 text-center">
+    <div class="row align-items-center g-0">
 
-                <img
-                        src="{% static 'img/hero.jpg' %}"
-                        class="img-fluid rounded-4 shadow"
-                        alt="سینما"
-                        width="400">
+        <div class="col-lg-6 order-lg-2">
+
+            <div class="cinema-hero-image">
+
+                <img src="{% static 'img/hero.jpg' %}"
+                     class="img-fluid w-100"
+                     alt="سینما">
+
+                <div class="cinema-hero-overlay"></div>
 
             </div>
 
-            <div class="col-lg-6 order-lg-1 text-lg-start text-center mt-5 mt-lg-0">
+        </div>
 
-                <span class="badge bg-warning text-dark mb-3 fs-6">
+        <div class="col-lg-6 order-lg-1">
+
+            <div class="cinema-hero-content text-center text-lg-start">
+
+                <span class="cinema-badge mb-3">
+                    <i class="bi bi-stars"></i>
                     اکران‌های ویژه
                 </span>
 
-                <h1 class="display-4 fw-bold mb-4">
-                    تجربه‌ای متفاوت از تماشای فیلم
+                <h1 class="cinema-hero-title mb-4">
+                    تجربه‌ای متفاوت از
+                    <span>تماشای فیلم</span>
                 </h1>
 
-                <p class="lead mb-4">
+                <p class="cinema-hero-description mb-4">
                     جدیدترین فیلم‌های روز را مشاهده کنید، صندلی دلخواه خود را انتخاب کنید
                     و تنها در چند دقیقه بلیت خود را به صورت آنلاین رزرو نمایید.
                 </p>
 
-                <a href="{% url 'movie_list' %}" class="btn btn-warning btn-lg ms-2">
-                    مشاهده فیلم‌ها
-                </a>
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-2">
 
-                <a href="{% url 'cinema_list' %}" class="btn btn-outline-light btn-lg">
-                    سینماها
-                </a>
+                    <a href="{% url 'movie_list' %}"
+                       class="btn btn-danger btn-lg cinema-btn">
+                        <i class="bi bi-play-circle me-1"></i>
+                        مشاهده فیلم‌ها
+                    </a>
+
+                    <a href="{% url 'cinema_list' %}"
+                       class="btn btn-outline-light btn-lg cinema-btn">
+                        <i class="bi bi-building"></i>
+                        سینماها
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
-    </section>
-
-{% if movies %}
-<section class="mb-5">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold mb-0">فیلم‌های در حال اکران</h2>
-        <a href="{% url 'movie_list' %}" class="btn btn-outline-primary btn-sm">
-            مشاهده همه <i class="bi bi-arrow-left"></i>
-        </a>
     </div>
 
-    <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
+</section>
+
+
+<!-- Movies -->
+{% if movies %}
+
+<section class="mb-5">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+
+        <div>
+            <span class="cinema-section-label">
+                روی پرده
+            </span>
+
+            <h2 class="cinema-section-title mb-0">
+                فیلم‌های در حال اکران
+            </h2>
+        </div>
+
+        <a href="{% url 'movie_list' %}"
+           class="btn btn-outline-danger cinema-small-btn">
+            مشاهده همه
+            <i class="bi bi-arrow-left"></i>
+        </a>
+
+    </div>
+
+
+    <div id="movieCarousel"
+         class="carousel slide cinema-movie-carousel"
+         data-bs-ride="carousel">
 
         <div class="carousel-indicators">
+
             {% for movie in movies %}
+
                 <button type="button"
                         data-bs-target="#movieCarousel"
                         data-bs-slide-to="{{ forloop.counter0 }}"
-                        {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                        {% if forloop.first %}
+                            class="active"
+                            aria-current="true"
+                        {% endif %}
                         aria-label="اسلاید {{ forloop.counter }}">
                 </button>
+
             {% endfor %}
+
         </div>
 
-        <div class="carousel-inner rounded-4 shadow overflow-hidden">
+
+        <div class="carousel-inner rounded-4 shadow-lg overflow-hidden">
 
             {% for movie in movies %}
+
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
 
-                    <div class="position-relative bg-dark text-white"
-                         style="height:420px;">
+                    <div class="cinema-movie-slide">
 
                         {% if movie.poster %}
+
                             <img src="{{ movie.poster.url }}"
-                                 class="w-100 h-100"
-                                 alt="{{ movie.name }}"
-                                 style="object-fit:cover;opacity:.55;">
+                                 class="cinema-movie-background"
+                                 alt="{{ movie.name }}">
+
                         {% else %}
-                            <div class="w-100 h-100 d-flex justify-content-center align-items-center"
-                                 style="opacity:.3;">
-                                <i class="bi bi-film" style="font-size:120px;"></i>
+
+                            <div class="cinema-no-poster">
+                                <i class="bi bi-film"></i>
                             </div>
+
                         {% endif %}
 
-                        <div class="carousel-caption d-flex flex-column justify-content-end h-100 text-start pb-5"
-                             style="right:5%;left:5%;bottom:0;">
+                        <div class="cinema-movie-gradient"></div>
 
-                            <h2 class="fw-bold display-5 mb-2">
-                                {{ movie.name }}
-                            </h2>
 
-                            <p class="mb-3 text-white-50">
-                                <i class="bi bi-person-video2"></i>
-                                {{ movie.director }}
-                                &nbsp;•&nbsp;
-                                <i class="bi bi-calendar"></i>
-                                {{ movie.year }}
-                                &nbsp;•&nbsp;
-                                <i class="bi bi-clock"></i>
-                                {{ movie.length }} دقیقه
-                            </p>
+                        <div class="carousel-caption cinema-movie-caption">
 
-                            <p class="d-none d-md-block mb-3"
-                               style="max-width:600px;">
-                                {{ movie.description|truncatechars:180 }}
-                            </p>
+                            <div class="cinema-movie-info">
 
-                            <div>
+                                <span class="cinema-now-playing">
+                                    <i class="bi bi-circle-fill"></i>
+                                    در حال اکران
+                                </span>
+
+                                <h2 class="fw-bold display-5 mb-3">
+                                    {{ movie.name }}
+                                </h2>
+
+                                <p class="cinema-movie-meta mb-3">
+
+                                    <span>
+                                        <i class="bi bi-person-video2"></i>
+                                        {{ movie.director }}
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-calendar3"></i>
+                                        {{ movie.year }}
+                                    </span>
+
+                                    <span>
+                                        <i class="bi bi-clock"></i>
+                                        {{ movie.length }} دقیقه
+                                    </span>
+
+                                </p>
+
+                                <p class="cinema-movie-description d-none d-md-block mb-4">
+                                    {{ movie.description|truncatechars:180 }}
+                                </p>
+
                                 <a href="{% url 'movie_list' %}"
-                                   class="btn btn-warning">
+                                   class="btn btn-danger cinema-btn">
                                     <i class="bi bi-ticket-perforated"></i>
                                     مشاهده سانس‌ها
                                 </a>
+
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
+
             {% endfor %}
 
         </div>
 
-        <button class="carousel-control-prev" type="button"
-                data-bs-target="#movieCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">قبلی</span>
+
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#movieCarousel"
+                data-bs-slide="prev">
+
+            <span class="carousel-control-prev-icon"
+                  aria-hidden="true"></span>
+
+            <span class="visually-hidden">
+                قبلی
+            </span>
+
         </button>
 
-        <button class="carousel-control-next" type="button"
-                data-bs-target="#movieCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">بعدی</span>
+
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#movieCarousel"
+                data-bs-slide="next">
+
+            <span class="carousel-control-next-icon"
+                  aria-hidden="true"></span>
+
+            <span class="visually-hidden">
+                بعدی
+            </span>
+
         </button>
 
     </div>
 
 </section>
+
 {% endif %}
 
-    <!-- Features -->
 
-    <section class="mb-5">
+<!-- Features -->
+<section class="mb-5">
 
-        <div class="row g-4">
+    <div class="row g-4">
 
-            <div class="col-md-4">
+        <div class="col-md-4">
 
-                <div class="card border-0 shadow-sm h-100">
+            <div class="card cinema-feature-card h-100">
 
-                    <div class="card-body text-center">
+                <div class="card-body text-center">
 
-                        <div class="display-4 mb-3">
-                            🍿
-                        </div>
-
-                        <h4 class="fw-bold">
-                            جدیدترین فیلم‌ها
-                        </h4>
-
-                        <p class="text-muted">
-                            به جدیدترین فیلم‌های ایرانی و خارجی دسترسی داشته باشید و از
-                            اکران‌های روز مطلع شوید.
-                        </p>
-
+                    <div class="cinema-feature-icon">
+                        <i class="bi bi-film"></i>
                     </div>
 
-                </div>
+                    <h4 class="fw-bold">
+                        جدیدترین فیلم‌ها
+                    </h4>
 
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="card border-0 shadow-sm h-100">
-
-                    <div class="card-body text-center">
-
-                        <div class="display-4 mb-3">
-                            🎟️
-                        </div>
-
-                        <h4 class="fw-bold">
-                            رزرو آسان بلیت
-                        </h4>
-
-                        <p class="text-muted">
-                            تنها با چند کلیک صندلی موردنظر خود را انتخاب کرده و بلیتتان را
-                            رزرو کنید.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="card border-0 shadow-sm h-100">
-
-                    <div class="card-body text-center">
-
-                        <div class="display-4 mb-3">
-                            🏛️
-                        </div>
-
-                        <h4 class="fw-bold">
-                            بهترین سینماها
-                        </h4>
-
-                        <p class="text-muted">
-                            اطلاعات کامل سینماها، ظرفیت سالن‌ها و سانس‌های موجود را مشاهده
-                            کنید.
-                        </p>
-
-                    </div>
+                    <p>
+                        به جدیدترین فیلم‌های ایرانی و خارجی دسترسی داشته باشید و از
+                        اکران‌های روز مطلع شوید.
+                    </p>
 
                 </div>
 
@@ -234,11 +268,71 @@
 
         </div>
 
-    </section>
 
-    <!-- CTA -->
+        <div class="col-md-4">
 
-    <section class="bg-primary text-white rounded-4 p-5 text-center shadow">
+            <div class="card cinema-feature-card h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="cinema-feature-icon">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+
+                    <h4 class="fw-bold">
+                        رزرو آسان بلیت
+                    </h4>
+
+                    <p>
+                        تنها با چند کلیک صندلی موردنظر خود را انتخاب کرده و بلیتتان را
+                        رزرو کنید.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card cinema-feature-card h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="cinema-feature-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h4 class="fw-bold">
+                        بهترین سینماها
+                    </h4>
+
+                    <p>
+                        اطلاعات کامل سینماها، ظرفیت سالن‌ها و سانس‌های موجود را مشاهده
+                        کنید.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="cinema-cta rounded-4 shadow-lg text-center">
+
+    <div class="cinema-cta-content">
+
+        <div class="cinema-cta-icon">
+            <i class="bi bi-ticket-perforated"></i>
+        </div>
 
         <h2 class="fw-bold mb-3">
             آماده یک شب سینمایی هستید؟
@@ -248,11 +342,15 @@
             همین حالا فیلم مورد علاقه خود را انتخاب کنید و بلیتتان را آنلاین رزرو نمایید.
         </p>
 
-        <a href="{% url 'movie_list' %}" class="btn btn-light btn-lg px-5">
+        <a href="{% url 'movie_list' %}"
+           class="btn btn-light btn-lg px-5 cinema-cta-btn">
             مشاهده فیلم‌ها
         </a>
 
-    </section>
+    </div>
+
+</section>
+
 
 </div>
 
