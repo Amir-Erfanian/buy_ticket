@@ -1,10 +1,15 @@
+{% load static %}
+
 <footer class="bg-dark text-white mt-5 py-5">
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">
-                سینما آنلاین
-                </h5>
+                <a href="{% url 'home_page' %}" class="d-inline-flex align-items-center text-decoration-none text-white mb-3">
+                    <img src="{% static 'img/logo.png' %}"
+                         alt="سینما آنلاین"
+                         class="footer-logo me-2">
+                    <h5 class="fw-bold mb-0">سینما آنلاین</h5>
+                </a>
 
                 <p class="text-light-emphasis">
                     سامانه رزرو و خرید اینترنتی بلیت سینما با امکان انتخاب صندلی،
@@ -32,6 +37,21 @@
                     <li>
                         <a href="{% url 'cinema_list' %}" class="text-decoration-none text-light">
                             سینماها
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'blog:posts_page' %}" class="text-decoration-none text-light">
+                            وبلاگ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'about_page' %}" class="text-decoration-none text-light">
+                            درباره ما
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact_page' %}" class="text-decoration-none text-light">
+                            تماس با ما
                         </a>
                     </li>
                 </ul>
