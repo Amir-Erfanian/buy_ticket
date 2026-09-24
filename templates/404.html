@@ -1,1 +1,84 @@
-hiii
+{% extends "base.html" %}
+
+{% block title %}
+    صفحه پیدا نشد | سینما آنلاین
+{% endblock %}
+
+{% block content %}
+
+<div class="cinema-404-page">
+
+    <div class="cinema-404-background">
+        <div class="cinema-404-circle cinema-404-circle-one"></div>
+        <div class="cinema-404-circle cinema-404-circle-two"></div>
+    </div>
+
+    <div class="cinema-404-content">
+
+
+        <div class="cinema-404-number">
+            404
+        </div>
+
+        <span class="cinema-404-label">
+            صحنه پیدا نشد
+        </span>
+
+        <h1>
+            این صفحه در سینما پیدا نشد!
+        </h1>
+
+        <p>
+            به نظر می‌رسد صفحه‌ای که به دنبال آن هستید وجود ندارد،
+            حذف شده یا آدرس آن تغییر کرده است.
+        </p>
+
+        <div class="cinema-404-actions">
+
+            <a
+                href="/"
+                class="cinema-btn cinema-btn-primary">
+
+                <i class="bi bi-house-door"></i>
+                بازگشت به صفحه اصلی
+
+            </a>
+
+            <button
+                type="button"
+                class="cinema-btn cinema-btn-outline"
+                onclick="history.back()">
+
+                <i class="bi bi-arrow-right"></i>
+                صفحه قبلی
+
+            </button>
+
+        </div>
+
+        <div class="cinema-404-film-strip">
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+        <div class="cinema-404-brand">
+
+            <i class="bi bi-camera-reels-fill"></i>
+            سینما آنلاین
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
