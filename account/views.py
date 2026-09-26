@@ -13,15 +13,18 @@ def register_view(request):
     if request.method == "POST":
 
         form = RegisterForm(request.POST)
+
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+
+            form.save()
+
             messages.success(
                 request,
-                "حساب کاربری شما با موفقیت ایجاد شد."
+                "حساب کاربری شما با موفقیت ایجاد شد. "
+                "پس از تأیید حساب، می‌توانید وارد شوید."
             )
 
-            return redirect("home_page")
+            return redirect("login")
 
     else:
         form = RegisterForm()
@@ -73,7 +76,8 @@ def login_view(request):
 
             form.add_error(
                 None,
-                "ایمیل یا رمز عبور اشتباه است."
+                "ایمیل یا رمز عبور اشتباه است، "
+                "یا حساب کاربری شما هنوز فعال نشده است."
             )
 
     else:
@@ -89,10 +93,13 @@ def login_view(request):
 
 
 def logout_view(request):
+
     logout(request)
+
     messages.success(
         request,
         "با موفقیت از حساب کاربری خارج شدید."
     )
+
     return redirect("home_page")
 
