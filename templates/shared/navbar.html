@@ -67,7 +67,7 @@
 
             {% if user.is_authenticated %}
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' %}">
                         <i class="bi bi-person-circle"></i>
                         {{ user.username }}
@@ -79,7 +79,7 @@
                         <i class="bi bi-ticket-perforated"></i>
                         بلیت‌های من
                     </a>
-                </li>
+                </li> {% endcomment %}
 
                 <li class="nav-item">
                     <form method="post"

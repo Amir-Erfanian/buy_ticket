@@ -1,103 +1,94 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(
-        max_length=50,
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": "First Name",
-            }
-        ),
-    )
-
-    last_name = forms.CharField(
-        max_length=50,
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Last Name",
-            }
-        ),
-    )
-
-    email = forms.EmailField(
-        required=True,
-        widget=forms.EmailInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Email Address",
-            }
-        ),
-    )
-
-    username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Username",
-            }
-        ),
-    )
+class RegisterForm(forms.ModelForm):
 
     password1 = forms.CharField(
+        label="رمز عبور",
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
-                "placeholder": "Password",
+                "placeholder": "رمز عبور",
+                "autocomplete": "new-password",
             }
-        ),
+        )
     )
 
     password2 = forms.CharField(
+        label="تکرار رمز عبور",
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
-                "placeholder": "Confirm Password",
+                "placeholder": "تکرار رمز عبور",
+                "autocomplete": "new-password",
             }
-        ),
+        )
     )
 
     class Meta:
         model = User
-        fields = (
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "password1",
-            "password2",
-        )
+        fields = ("email",)
 
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("این نام کاربری قبلا استفاده شده است")
-
-        return username
+        widgets = {
+            "email": forms.EmailInput(
+                attrs={
+                    "placeholder": "ایمیل خود را وارد کنید",
+                    "autocomplete": "email",
+                }
+            ),
+        }
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data["email"].lower()
 
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("حسابی با این ایمیل از قبل وجود دارد")
+            raise forms.ValidationError(
+                "این ایمیل قبلاً ثبت نام کرده است."
+            )
 
         return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                "رمزهای عبور یکسان نیستند."
+            )
+
+        return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
 
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
-        user.email = self.cleaned_data["email"]
+        user.username = self.cleaned_data["email"]
+        user.set_password(self.cleaned_data["password1"])
 
         if commit:
             user.save()
 
         return user
+
+
+class LoginForm(forms.Form):
+
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "ایمیل خود را وارد کنید",
+                "autocomplete": "email",
+            }
+        )
+    )
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "رمز عبور",
+                "autocomplete": "current-password",
+            }
+        )
+    )
+

@@ -1,111 +1,111 @@
 {% extends "base.html" %}
 
 {% block title %}
-ورود
+    ورود | سینما آنلاین
 {% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center py-5">
+<div class="cinema-auth-page">
 
-    <div class="col-lg-5 col-md-7">
+    <div class="cinema-auth-background">
+        <div class="cinema-auth-circle cinema-auth-circle-one"></div>
+        <div class="cinema-auth-circle cinema-auth-circle-two"></div>
+    </div>
 
-        <div class="card border-0 shadow-lg">
+    <div class="cinema-auth-card">
 
-            <div class="card-body p-5">
+        <div class="cinema-auth-header">
 
-                <div class="text-center mb-4">
+            <div class="cinema-auth-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
 
-                    <div class="display-4 mb-3">
-                        🔐
-                    </div>
+            <h1>
+                ورود به حساب کاربری
+            </h1>
 
-                    <h2 class="fw-bold">
-                        ورود به حساب کاربری
-                    </h2>
+            <p>
+                برای رزرو بلیت وارد حساب کاربری خود شوید.
+            </p>
 
-                    <p class="text-muted">
-                        برای رزرو بلیت وارد حساب کاربری خود شوید.
-                    </p>
+        </div>
 
+        <form method="post">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="cinema-auth-error">
+                    <i class="bi bi-exclamation-circle"></i>
+                    {{ form.non_field_errors }}
                 </div>
+            {% endif %}
 
-                <form method="post">
+            <div class="cinema-form-group">
 
-                    {% csrf_token %}
+                <label class="cinema-form-label">
+                    <i class="bi bi-envelope"></i>
+                    ایمیل
+                </label>
 
-                    {% if form.non_field_errors %}
-
-                        <div class="alert alert-danger">
-
-                            {{ form.non_field_errors }}
-
-                        </div>
-
-                    {% endif %}
-
-                    <div class="mb-3">
-
-                        <label class="form-label fw-semibold">
-
-                            نام کاربری
-
-                        </label>
-
-                        <input
-                                type="text"
-                                name="username"
-                                class="form-control form-control-lg"
-                                placeholder="نام کاربری خود را وارد کنید"
-                                required>
-
-                    </div>
-
-                    <div class="mb-4">
-
-                        <label class="form-label fw-semibold">
-
-                            رمز عبور
-
-                        </label>
-
-                        <input
-                                type="password"
-                                name="password"
-                                class="form-control form-control-lg"
-                                placeholder="رمز عبور"
-                                required>
-
-                    </div>
-
-                    <button
-                            type="submit"
-                            class="btn btn-warning btn-lg w-100">
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        ورود
-
-                    </button>
-
-                </form>
-
-                <hr class="my-4">
-
-                <p class="text-center mb-0">
-
-                    حساب کاربری ندارید؟
-
-                    <a href="{% url 'register' %}"
-                       class="text-decoration-none fw-bold">
-
-                        ثبت نام
-
-                    </a>
-
-                </p>
+                <input
+                    type="email"
+                    name="email"
+                    class="cinema-auth-input"
+                    placeholder="ایمیل خود را وارد کنید"
+                    autocomplete="email"
+                    required>
 
             </div>
+
+            <div class="cinema-form-group cinema-password-group">
+
+                <label class="cinema-form-label">
+                    <i class="bi bi-lock"></i>
+                    رمز عبور
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="cinema-auth-input"
+                    placeholder="رمز عبور"
+                    autocomplete="current-password"
+                    required>
+
+            </div>
+
+            <button
+                type="submit"
+                class="cinema-btn cinema-btn-primary cinema-auth-submit">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+                ورود
+
+            </button>
+
+        </form>
+
+        <div class="cinema-auth-divider">
+            <span>یا</span>
+        </div>
+
+        <p class="cinema-auth-register">
+
+            حساب کاربری ندارید؟
+
+            <a href="{% url 'register' %}">
+                ثبت نام
+            </a>
+
+        </p>
+
+        <div class="cinema-auth-brand">
+
+            <i class="bi bi-camera-reels-fill"></i>
+
+            سینما آنلاین
 
         </div>
 
@@ -114,3 +114,4 @@
 </div>
 
 {% endblock %}
+

@@ -18,7 +18,7 @@ def contact_view(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "پیام شما با موفقیت ارسال شد. ممنون از تماس شما!")
+            messages.success(request, "پیام شما با موفقیت ارسال شد.")
             return redirect("contact_page")
         else:
             messages.error(request, "لطفاً خطاهای فرم را برطرف کنید.")

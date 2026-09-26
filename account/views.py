@@ -1,25 +1,27 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import redirect, render
 
-from .forms import RegisterForm
-from ticketing.models import Booking
+from .forms import RegisterForm, LoginForm
 
 
-def register(request):
+def register_view(request):
+
     if request.user.is_authenticated:
-        return redirect("movie_list")
+        return redirect("home_page")
 
     if request.method == "POST":
-        form = RegisterForm(request.POST)
 
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(
+                request,
+                "حساب کاربری شما با موفقیت ایجاد شد."
+            )
 
-            messages.success(request, "اکانت شما با موفقیت ایجاد شد")
-            return redirect("movie_list")
+            return redirect("home_page")
 
     else:
         form = RegisterForm()
@@ -29,36 +31,68 @@ def register(request):
         "account/register.html",
         {
             "form": form,
-        },
+        }
     )
 
 
-@login_required
-def profile(request):
+def login_view(request):
+
+    if request.user.is_authenticated:
+        return redirect("home_page")
+
+    if request.method == "POST":
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+
+            email = form.cleaned_data["email"].lower()
+            password = form.cleaned_data["password"]
+
+            user = authenticate(
+                request,
+                username=email,
+                password=password,
+            )
+
+            if user is not None:
+
+                login(request, user)
+
+                messages.success(
+                    request,
+                    "با موفقیت وارد شدید."
+                )
+
+                next_url = request.GET.get("next")
+
+                if next_url:
+                    return redirect(next_url)
+
+                return redirect("home_page")
+
+            form.add_error(
+                None,
+                "ایمیل یا رمز عبور اشتباه است."
+            )
+
+    else:
+        form = LoginForm()
+
     return render(
         request,
-        "account/profile.html",
-    )
-
-
-@login_required
-def my_bookings(request):
-    bookings = (
-        Booking.objects.filter(user=request.user)
-        .select_related(
-            "showtime",
-            "showtime__movie",
-            "showtime__cinema",
-        )
-        .prefetch_related(
-            "booking_seats__seat",
-        )
-    )
-
-    return render(
-        request,
-        "account/my_bookings.html",
+        "account/login.html",
         {
-            "bookings": bookings,
-        },
+            "form": form,
+        }
     )
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(
+        request,
+        "با موفقیت از حساب کاربری خارج شدید."
+    )
+    return redirect("home_page")
+
