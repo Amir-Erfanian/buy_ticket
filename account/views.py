@@ -9,15 +9,10 @@ def register_view(request):
 
     if request.user.is_authenticated:
         return redirect("home_page")
-
     if request.method == "POST":
-
         form = RegisterForm(request.POST)
-
         if form.is_valid():
-
             form.save()
-
             messages.success(
                 request,
                 "حساب کاربری شما با موفقیت ایجاد شد. "
@@ -39,16 +34,12 @@ def register_view(request):
 
 
 def login_view(request):
-
     if request.user.is_authenticated:
         return redirect("home_page")
 
     if request.method == "POST":
-
         form = LoginForm(request.POST)
-
         if form.is_valid():
-
             email = form.cleaned_data["email"].lower()
             password = form.cleaned_data["password"]
 
