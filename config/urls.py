@@ -23,7 +23,8 @@ urlpatterns = [
         sitemap,
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
-)
+),
+path('captcha/', include('captcha.urls')),
 ]
 
 if settings.DEBUG:
