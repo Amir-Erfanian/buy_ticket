@@ -49,9 +49,7 @@ class RegisterForm(forms.ModelForm):
         email = self.cleaned_data["email"].strip().lower()
 
         if User.objects.filter(email__iexact=email).exists():
-            raise forms.ValidationError(
-                "این ایمیل قبلاً ثبت نام کرده است."
-            )
+            raise forms.ValidationError("این ایمیل قبلاً ثبت نام کرده است.")
 
         return email
 
@@ -73,10 +71,7 @@ class RegisterForm(forms.ModelForm):
         password2 = cleaned_data.get("password2")
 
         if password1 and password2 and password1 != password2:
-            self.add_error(
-                "password2",
-                "رمزهای عبور یکسان نیستند."
-            )
+            self.add_error("password2", "رمزهای عبور یکسان نیستند.")
 
         return cleaned_data
 
@@ -86,9 +81,7 @@ class RegisterForm(forms.ModelForm):
         user.username = self.cleaned_data["email"]
         user.email = self.cleaned_data["email"]
 
-        user.set_password(
-            self.cleaned_data["password1"]
-        )
+        user.set_password(self.cleaned_data["password1"])
 
         # New accounts are disabled by default
         user.is_active = False
@@ -124,4 +117,3 @@ class LoginForm(forms.Form):
             }
         ),
     )
-

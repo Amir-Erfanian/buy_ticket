@@ -45,13 +45,7 @@ class SeatInline(admin.TabularInline):
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "director",
-        "year",
-        "length",
-        "is_active"
-    )
+    list_display = ("name", "director", "year", "length", "is_active")
 
     search_fields = (
         "name",

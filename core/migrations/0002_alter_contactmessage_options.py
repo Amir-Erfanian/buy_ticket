@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='contactmessage',
-            options={'ordering': ['-created_at'], 'verbose_name': 'پیام تماس با ما', 'verbose_name_plural': 'پیام\u200cهای تماس با ما'},
+            name="contactmessage",
+            options={
+                "ordering": ["-created_at"],
+                "verbose_name": "پیام تماس با ما",
+                "verbose_name_plural": "پیام\u200cهای تماس با ما",
+            },
         ),
     ]

@@ -8,32 +8,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0001_initial'),
+        ("blog", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='blogpost',
-            options={'ordering': ['-created_at']},
+            name="blogpost",
+            options={"ordering": ["-created_at"]},
         ),
         migrations.AlterModelOptions(
-            name='category',
-            options={'ordering': ['name'], 'verbose_name_plural': 'Categories'},
+            name="category",
+            options={"ordering": ["name"], "verbose_name_plural": "Categories"},
         ),
         migrations.AlterField(
-            model_name='blogpost',
-            name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='blog_posts', to=settings.AUTH_USER_MODEL),
+            model_name="blogpost",
+            name="author",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="blog_posts",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='blogpost',
-            name='category',
-            field=models.ManyToManyField(related_name='posts', to='blog.category'),
+            model_name="blogpost",
+            name="category",
+            field=models.ManyToManyField(related_name="posts", to="blog.category"),
         ),
         migrations.AlterField(
-            model_name='blogpost',
-            name='is_active',
+            model_name="blogpost",
+            name="is_active",
             field=models.BooleanField(default=False),
         ),
     ]

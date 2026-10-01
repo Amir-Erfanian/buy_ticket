@@ -63,9 +63,7 @@ class ShowTime(models.Model):
         (SHOW_CANCELED, "Canceled"),
     )
 
-    movie = models.ForeignKey(
-        Movie, on_delete=models.PROTECT, related_name="showtimes"
-    )
+    movie = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name="showtimes")
 
     cinema = models.ForeignKey(
         Cinema, on_delete=models.PROTECT, related_name="showtimes"
@@ -84,7 +82,6 @@ class ShowTime(models.Model):
 
     def clean(self):
         super().clean()
-
 
         if (
             self.cinema is not None

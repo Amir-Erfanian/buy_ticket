@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
-
 admin.site.unregister(User)
 
 
@@ -34,9 +33,7 @@ class CustomUserAdmin(UserAdmin):
         "email",
     )
 
-    ordering = (
-        "-date_joined",
-    )
+    ordering = ("-date_joined",)
 
     fieldsets = (
         (
@@ -87,4 +84,3 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
-

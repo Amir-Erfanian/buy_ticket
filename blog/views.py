@@ -11,17 +11,19 @@ def posts_view(request, cat_name=None, author_username=None, **kwargs):
     if author_username:
         posts = posts.filter(author__username=author_username)
 
-    return render(request, "blog/posts_page.html", {
-        "posts": posts,
-        "cat_name": cat_name,
-        "author_username": author_username,
-    })
+    return render(
+        request,
+        "blog/posts_page.html",
+        {
+            "posts": posts,
+            "cat_name": cat_name,
+            "author_username": author_username,
+        },
+    )
 
 
 def post_detail_view(request, slug):
-    post = get_object_or_404(
-        BlogPost, slug=slug, is_active=True, is_deleted=False
-    )
+    post = get_object_or_404(BlogPost, slug=slug, is_active=True, is_deleted=False)
 
     # Increment view count atomically
     BlogPost.objects.filter(pk=post.pk).update(view_count=F("view_count") + 1)
@@ -37,10 +39,14 @@ def post_detail_view(request, slug):
         .distinct()[:3]
     )
 
-    return render(request, "blog/post_detail_page.html", {
-        "post": post,
-        "related_posts": related_posts,
-    })
+    return render(
+        request,
+        "blog/post_detail_page.html",
+        {
+            "post": post,
+            "related_posts": related_posts,
+        },
+    )
 
 
 def blog_search(request):

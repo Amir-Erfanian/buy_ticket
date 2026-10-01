@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ticketing', '0010_alter_seat_unique_together_seat_status_and_more'),
+        ("ticketing", "0010_alter_seat_unique_together_seat_status_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cinema',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='cinemas/'),
+            model_name="cinema",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="cinemas/"),
         ),
     ]

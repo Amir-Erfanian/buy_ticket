@@ -7,6 +7,7 @@ from .models import Booking, Cinema, Movie, Seat, ShowTime
 from .services import create_booking
 from django.db.models import Q
 
+
 def movie_list(request):
     query = request.GET.get("q", "").strip()
     movies = Movie.objects.filter(is_active=True)
@@ -18,11 +19,16 @@ def movie_list(request):
             | Q(description__icontains=query)
         ).distinct()
 
-    return render(request, "ticketing/movie_list.html", {
-        "movies": movies,
-        "query": query,
-        "movie_count": movies.count(),
-    })
+    return render(
+        request,
+        "ticketing/movie_list.html",
+        {
+            "movies": movies,
+            "query": query,
+            "movie_count": movies.count(),
+        },
+    )
+
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
@@ -182,4 +188,3 @@ def select_seats(request, pk):
             "form": form,
         },
     )
-

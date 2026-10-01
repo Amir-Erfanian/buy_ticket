@@ -16,7 +16,7 @@ def register_view(request):
             messages.success(
                 request,
                 "حساب کاربری شما با موفقیت ایجاد شد. "
-                "پس از تأیید حساب، می‌توانید وارد شوید."
+                "پس از تأیید حساب، می‌توانید وارد شوید.",
             )
 
             return redirect("login")
@@ -29,7 +29,7 @@ def register_view(request):
         "account/register.html",
         {
             "form": form,
-        }
+        },
     )
 
 
@@ -53,10 +53,7 @@ def login_view(request):
 
                 login(request, user)
 
-                messages.success(
-                    request,
-                    "با موفقیت وارد شدید."
-                )
+                messages.success(request, "با موفقیت وارد شدید.")
 
                 next_url = request.GET.get("next")
 
@@ -68,7 +65,7 @@ def login_view(request):
             form.add_error(
                 None,
                 "ایمیل یا رمز عبور اشتباه است، "
-                "یا حساب کاربری شما هنوز فعال نشده است."
+                "یا حساب کاربری شما هنوز فعال نشده است.",
             )
 
     else:
@@ -79,7 +76,7 @@ def login_view(request):
         "account/login.html",
         {
             "form": form,
-        }
+        },
     )
 
 
@@ -87,10 +84,6 @@ def logout_view(request):
 
     logout(request)
 
-    messages.success(
-        request,
-        "با موفقیت از حساب کاربری خارج شدید."
-    )
+    messages.success(request, "با موفقیت از حساب کاربری خارج شدید.")
 
     return redirect("home_page")
-

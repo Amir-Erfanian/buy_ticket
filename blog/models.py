@@ -20,7 +20,9 @@ class Category(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="blog_posts"
+    )
     slug = models.SlugField(unique=True, blank=True)
     category = models.ManyToManyField(Category, related_name="posts")
     view_count = models.IntegerField(default=0, blank=True, null=True)
@@ -39,6 +41,7 @@ class BlogPost(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog:post_detail_page", kwargs={"slug": self.slug})
+
 
 @receiver(pre_save, sender=BlogPost)
 def generate_blog_slug(sender, instance, *args, **kwargs):

@@ -6,11 +6,7 @@ from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import StaticViewSiteMap
 from blog.sitemaps import BlogSitemap
 
-
-sitemaps = {
-    'static': StaticViewSiteMap,
-    'blog': BlogSitemap
-}
+sitemaps = {"static": StaticViewSiteMap, "blog": BlogSitemap}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -23,8 +19,9 @@ urlpatterns = [
         sitemap,
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
-),
-path('captcha/', include('captcha.urls')),
+    ),
+    path("captcha/", include("captcha.urls")),
+    path("summernote/", include("django_summernote.urls")),
 ]
 
 if settings.DEBUG:
@@ -33,4 +30,4 @@ if settings.DEBUG:
         document_root=settings.MEDIA_ROOT,
     )
 
-handler404 = 'config.views.custom_page_not_found'
+handler404 = "config.views.custom_page_not_found"

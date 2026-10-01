@@ -6,28 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ticketing', '0012_alter_showtime_free_seats'),
+        ("ticketing", "0012_alter_showtime_free_seats"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cinema',
-            name='is_active',
+            model_name="cinema",
+            name="is_active",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='cinema',
-            name='is_delete',
+            model_name="cinema",
+            name="is_delete",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='movie',
-            name='is_active',
+            model_name="movie",
+            name="is_active",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='movie',
-            name='is_delete',
+            model_name="movie",
+            name="is_delete",
             field=models.BooleanField(default=False),
         ),
     ]
