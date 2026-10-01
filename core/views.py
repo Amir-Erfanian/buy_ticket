@@ -5,7 +5,7 @@ from ticketing.models import Movie
 
 
 def home_view(request):
-    movies = Movie.objects.all()[:8]
+    movies = Movie.objects.filter(is_active=True)[:8]
     return render(request, "core/home_page.html", {"movies": movies})
 
 
