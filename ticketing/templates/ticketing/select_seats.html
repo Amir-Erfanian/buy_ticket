@@ -1,29 +1,20 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}
-Select Seats
+  Select Seats
 {% endblock %}
 
 {% block content %}
+  <h2>{{ showtime.movie.name }}</h2>
+  <h5>{{ showtime.cinema.name }}</h5>
+  <p>{{ showtime.start_time }}</p>
+  <hr />
 
-<h2>{{ showtime.movie.name }}</h2>
-
-<h5>{{ showtime.cinema.name }}</h5>
-
-<p>{{ showtime.start_time }}</p>
-
-<hr>
-
-<form method="post">
-
+  <form method="post">
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button class="btn btn-primary">
-        Book Selected Seats
-    </button>
-
-</form>
-
+    <button class="btn btn-primary">Book Selected Seats</button>
+  </form>
 {% endblock %}

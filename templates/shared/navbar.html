@@ -66,8 +66,8 @@
         <ul class="navbar-nav ms-auto align-items-lg-center cinema-auth-links">
 
             {% if user.is_authenticated %}
-
-                {% comment %} <li class="nav-item">
+            
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' %}">
                         <i class="bi bi-person-circle"></i>
                         {{ user.username }}
@@ -79,7 +79,7 @@
                         <i class="bi bi-ticket-perforated"></i>
                         بلیت‌های من
                     </a>
-                </li> {% endcomment %}
+                </li>
 
                 <li class="nav-item">
                     <form method="post"

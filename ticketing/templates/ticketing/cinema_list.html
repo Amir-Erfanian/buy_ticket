@@ -1,158 +1,112 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}
-    سینماها | سینما آنلاین
+  سینماها | سینما آنلاین
 {% endblock %}
 
 {% block content %}
-
-<div class="cinema-cinema-list-page">
-
+  <div class="cinema-cinema-list-page">
     <div class="cinema-page-heading mb-5">
+      <span class="cinema-section-label">
+        <i class="bi bi-building"></i>
+        سینماهای طرف قرارداد
+      </span>
 
-        <span class="cinema-section-label">
-            <i class="bi bi-building"></i>
-            سینماهای طرف قرارداد
-        </span>
+      <h1 class="cinema-section-title">سینماهای فعال</h1>
 
-        <h1 class="cinema-section-title">
-            سینماهای فعال
-        </h1>
-
-        <p class="cinema-page-description">
-            لیست سینماهای طرف قرارداد را مشاهده کنید و نزدیک‌ترین سینما را برای تماشای فیلم انتخاب نمایید.
-        </p>
-
+      <p class="cinema-page-description">لیست سینماهای طرف قرارداد را مشاهده کنید و نزدیک‌ترین سینما را برای تماشای فیلم انتخاب نمایید.</p>
     </div>
 
     {% if cinemas %}
+      <div class="row g-4">
+        {% for cinema in cinemas %}
+          <div class="col-xl-4 col-md-6">
+            <div class="cinema-cinema-card h-100">
+              <div class="cinema-cinema-image">
+                {% if cinema.image %}
+                  <img src="{{ cinema.image.url }}" alt="{{ cinema.name }}" />
+                {% else %}
+                  <div class="cinema-cinema-placeholder">
+                    <i class="bi bi-building"></i>
+                  </div>
+                {% endif %}
 
-        <div class="row g-4">
+                <div class="cinema-cinema-image-overlay"></div>
 
-            {% for cinema in cinemas %}
+                <span class="cinema-cinema-status">
+                  <i class="bi bi-check-circle-fill"></i>
+                  فعال
+                </span>
+              </div>
 
-                <div class="col-xl-4 col-md-6">
+              <div class="cinema-cinema-body">
+                <h3>{{ cinema.name }}</h3>
 
-                    <div class="cinema-cinema-card h-100">
+                <div class="cinema-cinema-info">
+                  <div>
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>
+                      <strong>شهر:</strong>
+                      {{ cinema.city }}
+                    </span>
+                  </div>
 
-                        <div class="cinema-cinema-image">
+                  <div>
+                    <i class="bi bi-people-fill"></i>
+                    <span>
+                      <strong>ظرفیت:</strong>
+                      {{ cinema.capacity }} نفر
+                    </span>
+                  </div>
 
-                            {% if cinema.image %}
+                  <div>
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>
+                      <strong>تلفن:</strong>
 
-                                <img
-                                    src="{{ cinema.image.url }}"
-                                    alt="{{ cinema.name }}">
+                      {% if cinema.phone %}
+                        {{ cinema.phone }}
+                      {% else %}
+                        ثبت نشده
+                      {% endif %}
+                    </span>
+                  </div>
 
-                            {% else %}
-
-                                <div class="cinema-cinema-placeholder">
-                                    <i class="bi bi-building"></i>
-                                </div>
-
-                            {% endif %}
-
-                            <div class="cinema-cinema-image-overlay"></div>
-
-                            <span class="cinema-cinema-status">
-                                <i class="bi bi-check-circle-fill"></i>
-                                فعال
-                            </span>
-
-                        </div>
-
-                        <div class="cinema-cinema-body">
-
-                            <h3>
-                                {{ cinema.name }}
-                            </h3>
-
-                            <div class="cinema-cinema-info">
-
-                                <div>
-                                    <i class="bi bi-geo-alt-fill"></i>
-                                    <span>
-                                        <strong>شهر:</strong>
-                                        {{ cinema.city }}
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <i class="bi bi-people-fill"></i>
-                                    <span>
-                                        <strong>ظرفیت:</strong>
-                                        {{ cinema.capacity }} نفر
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <i class="bi bi-telephone-fill"></i>
-                                    <span>
-                                        <strong>تلفن:</strong>
-
-                                        {% if cinema.phone %}
-                                            {{ cinema.phone }}
-                                        {% else %}
-                                            ثبت نشده
-                                        {% endif %}
-
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <i class="bi bi-pin-map-fill"></i>
-                                    <span>
-                                        <strong>آدرس:</strong>
-                                        {{ cinema.address|truncatechars:80 }}
-                                    </span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="cinema-cinema-footer">
-
-                            <span class="cinema-showtime-count">
-                                <i class="bi bi-calendar2-week"></i>
-                                {{ cinema.showtimes.count }} سانس
-                            </span>
-
-                            <span class="cinema-ready">
-                                <i class="bi bi-camera-reels"></i>
-                                آماده اکران
-                            </span>
-
-                        </div>
-
-                    </div>
-
+                  <div>
+                    <i class="bi bi-pin-map-fill"></i>
+                    <span>
+                      <strong>آدرس:</strong>
+                      {{ cinema.address|truncatechars:80 }}
+                    </span>
+                  </div>
                 </div>
+              </div>
 
-            {% endfor %}
+              <div class="cinema-cinema-footer">
+                <span class="cinema-showtime-count">
+                  <i class="bi bi-calendar2-week"></i>
+                  {{ cinema.showtimes.count }} سانس
+                </span>
 
-        </div>
-
-    {% else %}
-
-        <div class="cinema-empty-state">
-
-            <div class="cinema-empty-icon">
-                <i class="bi bi-building-x"></i>
+                <span class="cinema-ready">
+                  <i class="bi bi-camera-reels"></i>
+                  آماده اکران
+                </span>
+              </div>
             </div>
-
-            <h3>
-                سینمایی یافت نشد
-            </h3>
-
-            <p>
-                در حال حاضر هیچ سینمایی در سامانه ثبت نشده است.
-            </p>
-
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="cinema-empty-state">
+        <div class="cinema-empty-icon">
+          <i class="bi bi-building-x"></i>
         </div>
 
+        <h3>سینمایی یافت نشد</h3>
+
+        <p>در حال حاضر هیچ سینمایی در سامانه ثبت نشده است.</p>
+      </div>
     {% endif %}
-
-</div>
-
+  </div>
 {% endblock %}
-

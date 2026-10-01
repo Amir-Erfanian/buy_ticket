@@ -1,162 +1,142 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}
-    ثبت نام | سینما آنلاین
+  ثبت نام | سینما آنلاین
 {% endblock %}
 
 {% block content %}
-
-<div class="cinema-auth-page cinema-register-page">
-
+  <div class="cinema-auth-page cinema-register-page">
     <div class="cinema-auth-background">
-        <div class="cinema-auth-circle cinema-auth-circle-one"></div>
-        <div class="cinema-auth-circle cinema-auth-circle-two"></div>
+      <div class="cinema-auth-circle cinema-auth-circle-one"></div>
+      <div class="cinema-auth-circle cinema-auth-circle-two"></div>
     </div>
 
     <div class="cinema-auth-card cinema-register-card">
-
-        <div class="cinema-auth-header">
-
-            <div class="cinema-auth-icon">
-                <i class="bi bi-person-plus-fill"></i>
-            </div>
-
-            <h1>
-                ایجاد حساب کاربری
-            </h1>
-
-            <p>
-                برای خرید و رزرو آنلاین بلیت، حساب کاربری خود را ایجاد کنید.
-            </p>
-
+      <div class="cinema-auth-header">
+        <div class="cinema-auth-icon">
+          <i class="bi bi-person-plus-fill"></i>
         </div>
 
-        <form method="post" novalidate>
+        <h1>ایجاد حساب کاربری</h1>
 
-            {% csrf_token %}
+        <p>برای خرید و رزرو آنلاین بلیت، حساب کاربری خود را ایجاد کنید.</p>
+      </div>
 
-            {% if form.non_field_errors %}
+      <form method="post" novalidate>
+        {% csrf_token %}
 
-                <div class="cinema-auth-error">
-                    <i class="bi bi-exclamation-circle"></i>
+        {% if form.non_field_errors %}
+          <div class="cinema-auth-error">
+            <i class="bi bi-exclamation-circle"></i>
 
-                    <div>
-                        {{ form.non_field_errors }}
-                    </div>
-                </div>
+            <div>{{ form.non_field_errors }}</div>
+          </div>
+        {% endif %}
 
-            {% endif %}
+        <!-- Email -->
 
+        <div class="cinema-form-group">
+          <label class="cinema-form-label">
+            <i class="bi bi-envelope"></i>
 
-            <!-- Email -->
+            ایمیل
+          </label>
 
-            <div class="cinema-form-group">
+          {{ form.email }}
 
-                <label class="cinema-form-label">
-                    <i class="bi bi-envelope"></i>
-                    ایمیل
-                </label>
+          {% if form.email.errors %}
+            <div class="cinema-field-error">
+              <i class="bi bi-exclamation-circle"></i>
 
-                {{ form.email }}
-
-                {% if form.email.errors %}
-
-                    <div class="cinema-field-error">
-                        <i class="bi bi-exclamation-circle"></i>
-                        {{ form.email.errors }}
-                    </div>
-
-                {% endif %}
-
+              {{ form.email.errors }}
             </div>
-
-
-            <!-- Password -->
-
-            <div class="cinema-form-group">
-
-                <label class="cinema-form-label">
-                    <i class="bi bi-lock"></i>
-                    رمز عبور
-                </label>
-
-                {{ form.password1 }}
-
-                {% if form.password1.errors %}
-
-                    <div class="cinema-field-error">
-                        <i class="bi bi-exclamation-circle"></i>
-                        {{ form.password1.errors }}
-                    </div>
-
-                {% endif %}
-
-            </div>
-
-
-            <!-- Confirm Password -->
-
-            <div class="cinema-form-group cinema-register-password-group">
-
-                <label class="cinema-form-label">
-                    <i class="bi bi-shield-lock"></i>
-                    تکرار رمز عبور
-                </label>
-
-                {{ form.password2 }}
-
-                {% if form.password2.errors %}
-
-                    <div class="cinema-field-error">
-                        <i class="bi bi-exclamation-circle"></i>
-                        {{ form.password2.errors }}
-                    </div>
-
-                {% endif %}
-
-            </div>
-
-
-            <!-- Submit -->
-
-            <button
-                type="submit"
-                class="cinema-btn cinema-btn-primary cinema-auth-submit">
-
-                <i class="bi bi-person-plus-fill"></i>
-                ایجاد حساب کاربری
-
-            </button>
-
-        </form>
-
-
-        <div class="cinema-auth-divider">
-            <span>یا</span>
+          {% endif %}
         </div>
 
+        <!-- Password -->
 
-        <p class="cinema-auth-register">
+        <div class="cinema-form-group">
+          <label class="cinema-form-label">
+            <i class="bi bi-lock"></i>
 
-            قبلاً ثبت نام کرده‌اید؟
+            رمز عبور
+          </label>
 
-            <a href="{% url 'login' %}">
-                وارد شوید
-            </a>
+          {{ form.password1 }}
 
-        </p>
+          {% if form.password1.errors %}
+            <div class="cinema-field-error">
+              <i class="bi bi-exclamation-circle"></i>
 
-
-        <div class="cinema-auth-brand">
-
-            <i class="bi bi-camera-reels-fill"></i>
-            سینما آنلاین
-
+              {{ form.password1.errors }}
+            </div>
+          {% endif %}
         </div>
 
+        <!-- Confirm Password -->
+
+        <div class="cinema-form-group cinema-register-password-group">
+          <label class="cinema-form-label">
+            <i class="bi bi-shield-lock"></i>
+
+            تکرار رمز عبور
+          </label>
+
+          {{ form.password2 }}
+
+          {% if form.password2.errors %}
+            <div class="cinema-field-error">
+              <i class="bi bi-exclamation-circle"></i>
+
+              {{ form.password2.errors }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- CAPTCHA -->
+
+        <div class="cinema-form-group cinema-captcha-group">
+          <label class="cinema-form-label">
+            <i class="bi bi-shield-check"></i>
+
+            کد امنیتی
+          </label>
+
+          <div class="cinema-captcha-box">{{ form.captcha }}</div>
+
+          {% if form.captcha.errors %}
+            <div class="cinema-field-error">
+              <i class="bi bi-exclamation-circle"></i>
+
+              {{ form.captcha.errors }}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Submit -->
+
+        <button type="submit" class="cinema-btn cinema-btn-primary cinema-auth-submit">
+          <i class="bi bi-person-plus-fill"></i>
+
+          ایجاد حساب کاربری
+        </button>
+      </form>
+
+      <div class="cinema-auth-divider">
+        <span>یا</span>
+      </div>
+
+      <p class="cinema-auth-register">
+        قبلاً ثبت نام کرده‌اید؟
+
+        <a href="{% url 'login' %}">وارد شوید</a>
+      </p>
+
+      <div class="cinema-auth-brand">
+        <i class="bi bi-camera-reels-fill"></i>
+
+        سینما آنلاین
+      </div>
     </div>
-
-</div>
-
+  </div>
 {% endblock %}
-

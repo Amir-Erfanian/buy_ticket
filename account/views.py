@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-
 from .forms import RegisterForm, LoginForm
+from django.contrib.auth.decorators import login_required
+from ticketing.models import Booking
 
 
 def register_view(request):
@@ -81,9 +82,37 @@ def login_view(request):
 
 
 def logout_view(request):
-
     logout(request)
-
     messages.success(request, "با موفقیت از حساب کاربری خارج شدید.")
-
     return redirect("home_page")
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "account/profile.html",
+    )
+
+
+@login_required
+def my_bookings(request):
+    bookings = (
+        Booking.objects.filter(user=request.user)
+        .select_related(
+            "showtime",
+            "showtime__movie",
+            "showtime__cinema",
+        )
+        .prefetch_related(
+            "booking_seats__seat",
+        )
+    )
+
+    return render(
+        request,
+        "account/my_bookings.html",
+        {
+            "bookings": bookings,
+        },
+    )
